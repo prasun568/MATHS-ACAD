@@ -50,17 +50,21 @@ export async function POST(request: Request) {
     } else {
       console.warn('DATABASE_URL is not set. Falling back to local storage file contact_enquiries_development.json.');
       
-      let contacts = [];
-      if (fs.existsSync(LOCAL_CONTACTS_FILE)) {
-        try {
-          const fileData = fs.readFileSync(LOCAL_CONTACTS_FILE, 'utf8');
-          contacts = JSON.parse(fileData);
-        } catch (e) {
-          console.error('Error reading local contacts file, resetting...', e);
+      try {
+        let contacts = [];
+        if (fs.existsSync(LOCAL_CONTACTS_FILE)) {
+          try {
+            const fileData = fs.readFileSync(LOCAL_CONTACTS_FILE, 'utf8');
+            contacts = JSON.parse(fileData);
+          } catch (e) {
+            console.error('Error reading local contacts file, resetting...', e);
+          }
         }
+        contacts.push(sanitizedContact);
+        fs.writeFileSync(LOCAL_CONTACTS_FILE, JSON.stringify(contacts, null, 2), 'utf8');
+      } catch (fileWriteError) {
+        console.warn('Unable to write to local storage (normal in read-only serverless runtimes like Vercel):', fileWriteError);
       }
-      contacts.push(sanitizedContact);
-      fs.writeFileSync(LOCAL_CONTACTS_FILE, JSON.stringify(contacts, null, 2), 'utf8');
     }
 
     // 4. Send email notification to Admin

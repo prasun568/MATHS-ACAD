@@ -60,17 +60,21 @@ export async function POST(request: Request) {
     } else {
       console.warn('DATABASE_URL is not set. Falling back to local storage file mentors_development.json.');
       
-      let mentors = [];
-      if (fs.existsSync(LOCAL_MENTORS_FILE)) {
-        try {
-          const fileData = fs.readFileSync(LOCAL_MENTORS_FILE, 'utf8');
-          mentors = JSON.parse(fileData);
-        } catch (e) {
-          console.error('Error reading local mentors file, resetting...', e);
+      try {
+        let mentors = [];
+        if (fs.existsSync(LOCAL_MENTORS_FILE)) {
+          try {
+            const fileData = fs.readFileSync(LOCAL_MENTORS_FILE, 'utf8');
+            mentors = JSON.parse(fileData);
+          } catch (e) {
+            console.error('Error reading local mentors file, resetting...', e);
+          }
         }
+        mentors.push(sanitizedMentor);
+        fs.writeFileSync(LOCAL_MENTORS_FILE, JSON.stringify(mentors, null, 2), 'utf8');
+      } catch (fileWriteError) {
+        console.warn('Unable to write to local storage (normal in read-only serverless runtimes like Vercel):', fileWriteError);
       }
-      mentors.push(sanitizedMentor);
-      fs.writeFileSync(LOCAL_MENTORS_FILE, JSON.stringify(mentors, null, 2), 'utf8');
     }
 
     // 4. Send email notification to Admin

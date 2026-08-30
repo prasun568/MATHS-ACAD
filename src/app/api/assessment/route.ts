@@ -67,17 +67,21 @@ export async function POST(request: Request) {
       // Dev/Fallback mode: Write to local json file
       console.warn('DATABASE_URL is not set. Falling back to local storage file leads_development.json.');
       
-      let leads = [];
-      if (fs.existsSync(LOCAL_LEADS_FILE)) {
-        try {
-          const fileData = fs.readFileSync(LOCAL_LEADS_FILE, 'utf8');
-          leads = JSON.parse(fileData);
-        } catch (e) {
-          console.error('Error reading local leads file, resetting...', e);
+      try {
+        let leads = [];
+        if (fs.existsSync(LOCAL_LEADS_FILE)) {
+          try {
+            const fileData = fs.readFileSync(LOCAL_LEADS_FILE, 'utf8');
+            leads = JSON.parse(fileData);
+          } catch (e) {
+            console.error('Error reading local leads file, resetting...', e);
+          }
         }
+        leads.push(sanitizedLead);
+        fs.writeFileSync(LOCAL_LEADS_FILE, JSON.stringify(leads, null, 2), 'utf8');
+      } catch (fileWriteError) {
+        console.warn('Unable to write to local storage (normal in read-only serverless runtimes like Vercel):', fileWriteError);
       }
-      leads.push(sanitizedLead);
-      fs.writeFileSync(LOCAL_LEADS_FILE, JSON.stringify(leads, null, 2), 'utf8');
     }
 
     // 4. Send email notification to Admin
