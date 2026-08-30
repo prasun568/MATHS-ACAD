@@ -1,0 +1,149 @@
+.page {
+  padding-top: var(--navbar-height);
+  background-color: var(--bg-main);
+  min-height: 100vh;
+}
+
+.adHeader {
+  background-color: var(--primary);
+  color: #FFFFFF;
+  padding: 12px 0;
+  text-align: center;
+  border-bottom: 3px solid var(--secondary);
+}
+
+.adHook {
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.heroSection {
+  padding: 60px 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+  align-items: center;
+}
+
+@media (min-width: 992px) {
+  .grid {
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 60px;
+  }
+}
+
+.pitchCol {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.pitchTitle {
+  font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+  font-weight: 850;
+  line-height: 1.2;
+  margin: 14px 0 20px 0;
+  letter-spacing: -0.01em;
+}
+
+.pitchDesc {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 30px;
+}
+
+.trustBlock {
+  background-color: var(--bg-card);
+  padding: 24px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 24px;
+}
+
+.trustHeading {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 16px;
+}
+
+.trustList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.trustItem {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  position: relative;
+  padding-left: 20px;
+  line-height: 1.4;
+}
+
+.trustItem::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--primary);
+  font-weight: bold;
+}
+
+.socialProof {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.formCol {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+/* Logos Bar */
+.logosBar {
+  background-color: var(--bg-card);
+  padding: 30px 0;
+  border-top: 1px solid var(--border-color-light);
+  border-bottom: 1px solid var(--border-color-light);
+}
+
+.logosTitle {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--text-light);
+  letter-spacing: 0.08em;
+  margin-bottom: 16px;
+}
+
+.logoGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: center;
+  align-items: center;
+}
+
+.logoGrid span {
+  font-family: var(--font-headings);
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--text-light);
+}
+
+@media (max-width: 768px) {
+  .heroSection {
+    padding: 30px 0;
+  }
+}

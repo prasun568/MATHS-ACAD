@@ -1,49 +1,310 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Colors */
+  --primary: #061320;       /* Deep Dark Navy */
+  --primary-hover: #0d253d; /* Lighter navy for hover state */
+  --primary-light: #F0F4F8; /* Soft Pale Blue-Gray */
+  --secondary: #B8860B;     /* Dark Goldenrod Accent */
+  --secondary-hover: #9E720A;
+  --accent: #F4F8FA;        /* Soft Blue Accent */
+  --accent-light: #F9FBFC;
+  --primary-dark: #061320;  /* Dark navy for footers/cards */
+  --primary-darkest: #030a10;/* Even darker navy for sub-bars */
+  
+  --bg-main: #FAF9F6;       /* Soft Off-white background */
+  --bg-card: #FFFFFF;       /* Pure White for cards and sections */
+  
+  --text-primary: #0F172A;  /* Slate dark for readability */
+  --text-secondary: #475569;/* Slate secondary */
+  --text-light: #94A3B8;    /* Slate muted */
+  --text-on-primary: #FFFFFF;
+  
+  --border-color: #E2E8F0;
+  --border-color-light: #F1F5F9;
+  
+  /* Shadows */
+  --shadow-sm: 0 2px 4px rgba(6, 19, 32, 0.02);
+  --shadow-md: 0 6px 16px rgba(6, 19, 32, 0.04), 0 1px 3px rgba(6, 19, 32, 0.01);
+  --shadow-lg: 0 16px 36px rgba(6, 19, 32, 0.06), 0 4px 12px rgba(6, 19, 32, 0.02);
+  --shadow-xl: 0 24px 48px rgba(6, 19, 32, 0.09), 0 8px 24px rgba(6, 19, 32, 0.03);
+  
+  /* Radii */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 24px;
+  --radius-full: 9999px;
+  
+  /* Typography */
+  --font-headings: 'Playfair Display', Georgia, serif;
+  --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  
+  /* Motion & Transitions */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 0.4s ease;
+  
+  /* Layout constraints */
+  --max-width: 1200px;
+  --navbar-height: 80px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-html {
-  height: 100%;
-}
-
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
-}
-
-body {
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
+/* Reset and base styles */
 * {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
 }
 
+html {
+  scroll-behavior: smooth;
+  height: 100%;
+}
+
+body {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  color: var(--text-primary);
+  background-color: var(--bg-main);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+main {
+  flex-grow: 1;
+}
+
+/* Typography styles */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-headings);
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--text-primary);
+}
+
+h1 {
+  font-size: clamp(2.2rem, 5vw, 3.5rem);
+  font-weight: 800;
+}
+
+h2 {
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  font-weight: 700;
+}
+
+h3 {
+  font-size: clamp(1.4rem, 3vw, 1.8rem);
+}
+
+h4 {
+  font-size: 1.25rem;
+}
+
+p {
+  color: var(--text-secondary);
+  font-size: 1.05rem;
+}
+
+p.lead {
+  font-size: clamp(1.1rem, 2.5vw, 1.25rem);
+  line-height: 1.7;
+}
+
 a {
   color: inherit;
   text-decoration: none;
+  transition: color var(--transition-fast), background-color var(--transition-fast);
 }
 
-@media (prefers-color-scheme: dark) {
+button, input, select, textarea {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+/* Accessibility settings */
+@media (prefers-reduced-motion: reduce) {
   html {
-    color-scheme: dark;
+    scroll-behavior: auto;
   }
+  
+  *, *::before, *::after {
+    animation-delay: -1ms !important;
+    animation-duration: -1ms !important;
+    animation-iteration-count: 1 !important;
+    background-transition: none !important;
+    transition-duration: 0s !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+:focus-visible {
+  outline: 3px solid var(--secondary);
+  outline-offset: 3px;
+}
+
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 0;
+  background: var(--secondary);
+  color: white;
+  padding: 10px 20px;
+  z-index: 10000;
+  transition: top var(--transition-fast);
+  font-weight: 600;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+/* Utility Layout Classes */
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.section {
+  padding: clamp(60px, 8vw, 100px) 0;
+}
+
+.section-alt {
+  background-color: var(--bg-card);
+  padding: clamp(60px, 8vw, 100px) 0;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 40px;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+}
+
+.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 24px;
+}
+
+/* Common UI Elements */
+.badge {
+  display: inline-block;
+  padding: 6px 14px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  border-radius: var(--radius-full);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.badge-primary {
+  background-color: var(--primary-light);
+  color: var(--primary);
+}
+
+.badge-secondary {
+  background-color: rgba(184, 134, 11, 0.1);
+  color: var(--secondary);
+}
+
+/* Forms styling */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+}
+
+.form-control {
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  background-color: var(--bg-card);
+  color: var(--text-primary);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(10, 92, 54, 0.1);
+}
+
+.form-row {
+  display: flex;
+  gap: 16px;
+  flex-direction: column;
+}
+
+@media (min-width: 768px) {
+  .form-row {
+    flex-direction: row;
+  }
+  .form-row > * {
+    flex: 1;
+  }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn var(--transition-slow) forwards;
+}
+
+.animate-slide-up {
+  animation: slideUp var(--transition-slow) forwards;
+}
+
+/* Intro Animation Page State Rules */
+body[data-intro-state="playing"] main,
+body[data-intro-state="playing"] footer,
+body[data-intro-state="playing"] header {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+body[data-intro-state="transitioning"] main,
+body[data-intro-state="transitioning"] footer,
+body[data-intro-state="transitioning"] header {
+  opacity: 1 !important;
+  pointer-events: none !important; /* Block interactions during transition */
+  transition: opacity 850ms ease-out !important;
+}
+
+body[data-intro-state="playing"] #navbar-logo,
+body[data-intro-state="transitioning"] #navbar-logo {
+  opacity: 0 !important;
 }

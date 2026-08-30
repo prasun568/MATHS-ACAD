@@ -1,0 +1,111 @@
+.page {
+  padding-top: var(--navbar-height);
+}
+
+.header {
+  background-color: var(--primary-light);
+  padding: 60px 0;
+  text-align: center;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.title {
+  font-size: clamp(2rem, 3.5vw, 2.8rem);
+  color: var(--primary);
+  margin-bottom: 12px;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.card {
+  background-color: var(--bg-card);
+  padding: 40px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-md);
+}
+
+.cardHeader {
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--border-color-light);
+  padding-bottom: 16px;
+}
+
+.badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.boardName {
+  font-size: clamp(1.4rem, 2.5vw, 1.8rem);
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.sectionTitle {
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+}
+
+.text {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.subtext {
+  font-size: 0.95rem;
+  color: var(--text-primary);
+}
+
+/* Call to Action card */
+.ctaCard {
+  background-color: var(--primary-dark);
+  color: #FFFFFF;
+  padding: 50px 30px;
+  border-radius: var(--radius-lg);
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+  box-shadow: var(--shadow-lg);
+}
+
+.ctaTitle {
+  font-family: var(--font-headings);
+  font-size: 1.8rem;
+  color: #FFFFFF;
+  margin-bottom: 12px;
+}
+
+.ctaDesc {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 30px;
+}
+
+.ctaButtons {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  justify-content: center;
+}
+
+@media (min-width: 480px) {
+  .ctaButtons {
+    flex-direction: row;
+  }
+}

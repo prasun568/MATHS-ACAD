@@ -1,0 +1,112 @@
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-body);
+  font-weight: 700;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid transparent;
+  gap: 8px;
+  width: max-content;
+}
+
+.sm {
+  padding: 8px 16px;
+  font-size: 0.875rem;
+}
+
+.md {
+  padding: 12px 24px;
+  font-size: 1rem;
+}
+
+.lg {
+  padding: 14px 28px;
+  font-size: 1.05rem;
+}
+
+.primary {
+  background-color: var(--primary);
+  color: var(--text-on-primary);
+}
+
+.primary:hover:not(:disabled) {
+  background-color: var(--primary-hover);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+.secondary {
+  background-color: var(--secondary);
+  color: var(--text-on-primary);
+}
+
+.secondary:hover:not(:disabled) {
+  background-color: var(--secondary-hover);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+.outline {
+  background-color: transparent;
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.outline:hover:not(:disabled) {
+  background-color: var(--primary-light);
+  transform: translateY(-1px);
+}
+
+.whatsapp {
+  background-color: #128C7E;
+  color: #FFFFFF;
+}
+
+.whatsapp:hover:not(:disabled) {
+  background-color: #075E54;
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+.text {
+  background: transparent;
+  color: var(--primary);
+  padding: 4px 8px;
+}
+
+.text:hover:not(:disabled) {
+  color: var(--primary-hover);
+}
+
+.btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid currentColor;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  animation: rotation 1s linear infinite;
+  margin-right: 8px;
+}
+
+@keyframes rotation {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@media (max-width: 480px) {
+  .btn {
+    width: 100%;
+  }
+}

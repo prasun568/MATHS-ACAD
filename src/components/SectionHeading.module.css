@@ -1,0 +1,60 @@
+.container {
+  margin-bottom: 50px;
+  max-width: 800px;
+}
+
+.centered {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.badge {
+  margin-bottom: 16px;
+}
+
+.title {
+  margin-bottom: 16px;
+  position: relative;
+  display: inline-block;
+}
+
+/* Elegant underlining styling for academic aesthetic */
+.title::after {
+  content: '';
+  display: block;
+  width: 50px;
+  height: 3px;
+  background-color: var(--secondary);
+  margin-top: 12px;
+  border-radius: var(--radius-full);
+}
+
+.centered .title::after {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  max-width: 650px;
+}
+
+.centered .subtitle {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.light .title {
+  color: #FFFFFF;
+}
+
+.light .subtitle {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+@media (max-width: 768px) {
+  .container {
+    margin-bottom: 36px;
+  }
+}

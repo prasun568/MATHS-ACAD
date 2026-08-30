@@ -1,0 +1,237 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--navbar-height);
+  z-index: 1000;
+  background-color: #FFFFFF; /* Solid white background stripe */
+  border-bottom: 1px solid var(--border-color-light);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-normal);
+  display: flex;
+  align-items: center;
+}
+
+.scrolled {
+  height: 70px;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.logoArea {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  font-family: var(--font-headings);
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--primary);
+  letter-spacing: -0.02em;
+}
+
+.logoAccent {
+  color: var(--secondary);
+}
+
+.logoLight {
+  color: var(--text-secondary);
+}
+
+.desktopNav {
+  display: none;
+}
+
+.navLinks {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  gap: 20px;
+}
+
+.navLink {
+  font-size: 0.925rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  padding: 8px 4px;
+  position: relative;
+}
+
+.navLink::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--primary);
+  transition: width var(--transition-fast);
+}
+
+.navLink:hover {
+  color: var(--primary);
+}
+
+.navLink:hover::after {
+  width: 100%;
+}
+
+.active {
+  color: var(--primary) !important;
+}
+
+.active::after {
+  width: 100% !important;
+}
+
+.ctaArea {
+  display: none;
+}
+
+.landingCta {
+  display: block;
+}
+
+/* Hamburger button styles */
+.hamburger {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 24px;
+  height: 18px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 1100;
+}
+
+.bar {
+  width: 100%;
+  height: 2px;
+  background-color: var(--text-primary);
+  transition: all var(--transition-normal);
+  border-radius: var(--radius-full);
+}
+
+/* Mobile Nav Drawer */
+.mobileNav {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 80%;
+  max-width: 400px;
+  height: 100vh;
+  background-color: var(--bg-card);
+  box-shadow: var(--shadow-xl);
+  padding: 100px 40px 40px 40px;
+  transition: right var(--transition-normal);
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+}
+
+.open {
+  right: 0;
+}
+
+.mobileNavLinks {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  gap: 24px;
+}
+
+.mobileNavLink {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  display: block;
+}
+
+.mobileNavLink:hover, .mobileNavLink.active {
+  color: var(--primary);
+}
+
+.mobileCtaLi {
+  margin-top: 24px;
+}
+
+.mobileWhatsappCta {
+  margin-top: 12px;
+}
+
+.mobileCtaBtn {
+  width: 100% !important;
+}
+
+/* Media Queries for Responsiveness */
+@media (min-width: 992px) {
+  .desktopNav {
+    display: block;
+  }
+  
+  .ctaArea {
+    display: block;
+  }
+  
+  .hamburger {
+    display: none;
+  }
+}
+
+/* Hamburger animations when menu is open */
+.menuOpen .hamburger .bar:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+
+.menuOpen .hamburger .bar:nth-child(2) {
+  opacity: 0;
+}
+
+.menuOpen .hamburger .bar:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+.logoLink {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logoImage {
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-color-light);
+  object-fit: cover;
+}
+
+.logoText {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+.logoTitle {
+  font-family: var(--font-headings);
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--primary);
+  letter-spacing: -0.01em;
+}
+
+.logoSub {
+  font-family: var(--font-headings);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+

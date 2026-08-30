@@ -1,0 +1,77 @@
+.accordion {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.item {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  transition: all var(--transition-normal);
+}
+
+.item:hover {
+  border-color: var(--primary);
+  box-shadow: var(--shadow-sm);
+}
+
+.itemOpen {
+  border-color: var(--primary);
+  box-shadow: var(--shadow-md);
+}
+
+.questionButton {
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  user-select: none;
+  background: transparent;
+  gap: 16px;
+}
+
+.questionButton:focus-visible {
+  outline: 3px solid var(--secondary);
+  outline-offset: -3px;
+  background-color: var(--primary-light);
+}
+
+.question {
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin: 0;
+  text-align: left;
+  line-height: 1.4;
+}
+
+.icon {
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: var(--primary);
+  transition: transform var(--transition-normal);
+  line-height: 1;
+}
+
+.answerWrapper {
+  overflow: hidden;
+  transition: max-height var(--transition-normal) cubic-bezier(0, 1, 0, 1);
+}
+
+.answer {
+  padding: 0 24px 20px 24px;
+  border-top: 1px solid var(--border-color-light);
+}
+
+.answer p {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin: 0;
+}

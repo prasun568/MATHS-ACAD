@@ -1,0 +1,138 @@
+.page {
+  padding-top: var(--navbar-height);
+}
+
+.header {
+  background-color: var(--primary-light);
+  padding: 60px 0;
+  text-align: center;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.title {
+  font-size: clamp(2rem, 3.5vw, 2.8rem);
+  color: var(--primary);
+  margin-bottom: 12px;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.text {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin-bottom: 20px;
+}
+
+.reportBox {
+  background-color: var(--bg-card);
+  padding: 40px 30px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-md);
+}
+
+.boxTitle {
+  font-family: var(--font-body);
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--primary);
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.boxList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.boxItem {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  position: relative;
+  padding-left: 28px;
+}
+
+.boxItem::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  top: 1px;
+  color: var(--primary);
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+/* Placeholder Card */
+.placeholderCard {
+  border: 2px dashed var(--border-color);
+  padding: 40px;
+  text-align: center;
+  border-radius: var(--radius-lg);
+  background-color: var(--bg-card);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.placeholderBadge {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-light);
+  border: 1px dashed var(--border-color);
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 20px;
+}
+
+.placeholderTitle {
+  font-size: 1.4rem;
+  margin-bottom: 12px;
+}
+
+.placeholderText {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+.placeholderInstruction {
+  font-style: italic;
+  font-size: 0.85rem;
+  color: var(--text-light);
+}
+
+/* Call to Action card */
+.ctaCard {
+  background-color: var(--primary-dark);
+  color: #FFFFFF;
+  padding: 50px 30px;
+  border-radius: var(--radius-lg);
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+  box-shadow: var(--shadow-lg);
+}
+
+.ctaTitle {
+  font-family: var(--font-headings);
+  font-size: 1.8rem;
+  color: #FFFFFF;
+  margin-bottom: 12px;
+}
+
+.ctaDesc {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 24px;
+}
