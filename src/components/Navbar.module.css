@@ -126,16 +126,17 @@
   position: fixed;
   top: 0;
   right: -100%;
-  width: 80%;
-  max-width: 400px;
+  width: 85%;
+  max-width: 360px;
   height: 100vh;
   background-color: var(--bg-card);
-  box-shadow: var(--shadow-xl);
-  padding: 100px 40px 40px 40px;
+  padding: 80px 24px 24px 24px;
   transition: right var(--transition-normal);
   z-index: 999;
   display: flex;
   flex-direction: column;
+  overflow-y: auto; /* Prevent button cutoff on small screens */
+  -webkit-overflow-scrolling: touch;
 }
 
 .open {

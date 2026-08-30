@@ -670,8 +670,10 @@
   background-color: #FFFFFF;
   padding: 12px 18px;
   border-radius: var(--radius-sm);
-  width: max-content;
+  width: 100%;
+  max-width: max-content;
   box-shadow: var(--shadow-sm);
+  box-sizing: border-box;
 }
 
 .assessmentFormWrapper {
