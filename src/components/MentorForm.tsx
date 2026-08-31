@@ -20,6 +20,14 @@ export default function MentorForm() {
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
 
+  // Resume state variables
+  const [resumeType, setResumeType] = useState<'file' | 'link'>('file');
+  const [resumeLink, setResumeLink] = useState('');
+  const [resumeFileName, setResumeFileName] = useState('');
+  const [resumeBase64, setResumeBase64] = useState('');
+  const [dragActive, setDragActive] = useState(false);
+  const [fileError, setFileError] = useState('');
+
   const subjectsOptions = [
     'Mathematics',
     'Science (Grades 3-10)',
@@ -56,6 +64,54 @@ export default function MentorForm() {
     );
   };
 
+  const handleFileChange = (file: File) => {
+    setFileError('');
+    const allowedExtensions = ['pdf', 'doc', 'docx'];
+    const extension = file.name.split('.').pop()?.toLowerCase();
+    
+    if (!extension || !allowedExtensions.includes(extension)) {
+      setFileError('Invalid file type. Only PDF, DOC, and DOCX are allowed.');
+      return;
+    }
+    
+    if (file.size > 5 * 1024 * 1024) {
+      setFileError('File size exceeds the 5MB limit.');
+      return;
+    }
+
+    setResumeFileName(file.name);
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      if (e.target?.result) {
+        setResumeBase64(e.target.result as string);
+      }
+    };
+    reader.onerror = () => {
+      setFileError('Error reading file. Please try again.');
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleDrag = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.type === "dragenter" || e.type === "dragover") {
+      setDragActive(true);
+    } else if (e.type === "dragleave") {
+      setDragActive(false);
+    }
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      handleFileChange(e.dataTransfer.files[0]);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -90,6 +146,26 @@ export default function MentorForm() {
       return;
     }
 
+    // Resume validation
+    if (resumeType === 'link') {
+      if (!resumeLink.trim()) {
+        setStatus('error');
+        setErrorMessage('Please enter a link to your resume.');
+        return;
+      }
+      if (!/^https?:\/\/[^\s$.?#].[^\s]*$/i.test(resumeLink.trim())) {
+        setStatus('error');
+        setErrorMessage('Please enter a valid URL (starting with http:// or https://) for your resume.');
+        return;
+      }
+    } else {
+      if (!resumeBase64) {
+        setStatus('error');
+        setErrorMessage('Please upload your resume file.');
+        return;
+      }
+    }
+
     setStatus('loading');
     setErrorMessage('');
 
@@ -97,6 +173,10 @@ export default function MentorForm() {
       ...formData,
       subjects: selectedSubjects,
       curriculumExpertise: selectedCurricula,
+      resumeType,
+      resumeLink: resumeType === 'link' ? resumeLink : '',
+      resumeFileName: resumeType === 'file' ? resumeFileName : '',
+      resumeBase64: resumeType === 'file' ? resumeBase64 : '',
     };
 
     try {
@@ -283,6 +363,96 @@ export default function MentorForm() {
           placeholder="Introduce yourself, mention prior school teaching experience, certifications, and educational philosophy..."
         ></textarea>
       </div>
+
+      {/* Resume/CV Section */}
+      <div className="form-group">
+        <label className="form-label">Resume / CV *</label>
+        
+        {/* Toggle options */}
+        <div className={styles.resumeToggle}>
+          <button
+            type="button"
+            className={`${styles.toggleBtn} ${resumeType === 'file' ? styles.activeToggle : ''}`}
+            onClick={() => setResumeType('file')}
+          >
+            Upload File
+          </button>
+          <button
+            type="button"
+            className={`${styles.toggleBtn} ${resumeType === 'link' ? styles.activeToggle : ''}`}
+            onClick={() => setResumeType('link')}
+          >
+            Provide Link
+          </button>
+        </div>
+
+        {resumeType === 'file' ? (
+          <div 
+            className={`${styles.dropZone} ${dragActive ? styles.dragActive : ''} ${resumeFileName ? styles.hasFile : ''}`}
+            onDragEnter={handleDrag}
+            onDragOver={handleDrag}
+            onDragLeave={handleDrag}
+            onDrop={handleDrop}
+          >
+            <input
+              type="file"
+              id="resume-file-input"
+              className={styles.fileInput}
+              accept=".pdf,.doc,.docx"
+              onChange={(e) => {
+                if (e.target.files && e.target.files[0]) {
+                  handleFileChange(e.target.files[0]);
+                }
+              }}
+            />
+            
+            {resumeFileName ? (
+              <div className={styles.fileInfo}>
+                <span className={styles.fileIcon}>📄</span>
+                <div className={styles.fileDetails}>
+                  <p className={styles.fileName}>{resumeFileName}</p>
+                  <p className={styles.fileSuccess}>File loaded successfully</p>
+                </div>
+                <button 
+                  type="button" 
+                  className={styles.removeFileBtn}
+                  onClick={() => {
+                    setResumeFileName('');
+                    setResumeBase64('');
+                  }}
+                  aria-label="Remove file"
+                >
+                  ✕
+                </button>
+              </div>
+            ) : (
+              <label htmlFor="resume-file-input" className={styles.dropZoneLabel}>
+                <span className={styles.uploadIcon}>📤</span>
+                <span className={styles.uploadText}>
+                  <strong>Click to upload</strong> or drag & drop
+                </span>
+                <span className={styles.uploadSubtext}>PDF, DOC, or DOCX (Max 5MB)</span>
+              </label>
+            )}
+            
+            {fileError && <p className={styles.fileErrorText}>{fileError}</p>}
+          </div>
+        ) : (
+          <div className={styles.linkInputContainer}>
+            <input
+              type="url"
+              className="form-control"
+              placeholder="e.g. https://drive.google.com/file/d/your-resume-link"
+              value={resumeLink}
+              onChange={(e) => setResumeLink(e.target.value)}
+            />
+            <p className={styles.helpText}>
+              Ensure the link is public and accessible (e.g. Google Drive link set to 'Anyone with the link can view').
+            </p>
+          </div>
+        )}
+      </div>
+
 
       <Button
         variant="primary"

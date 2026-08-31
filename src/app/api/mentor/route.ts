@@ -8,7 +8,21 @@ const LOCAL_MENTORS_FILE = path.join(process.cwd(), 'mentors_development.json');
 export async function POST(request: Request) {
   try {
     const data = await request.json();
-    const { name, email, phone, subjects, experience, curriculumExpertise, availability, introduction, honeypot } = data;
+    const { 
+      name, 
+      email, 
+      phone, 
+      subjects, 
+      experience, 
+      curriculumExpertise, 
+      availability, 
+      introduction, 
+      honeypot,
+      resumeType,
+      resumeLink,
+      resumeFileName,
+      resumeBase64 
+    } = data;
 
     // 1. Honeypot check
     if (honeypot) {
@@ -38,6 +52,34 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: false, error: 'Please specify curriculum expertise.' }, { status: 400 });
     }
 
+    // Resume / CV validation
+    if (!resumeType || !['link', 'file'].includes(resumeType)) {
+      return NextResponse.json({ success: false, error: 'Please submit a Resume / CV (either link or file upload).' }, { status: 400 });
+    }
+
+    if (resumeType === 'link') {
+      if (!resumeLink || !/^https?:\/\/[^\s$.?#].[^\s]*$/i.test(resumeLink.trim())) {
+        return NextResponse.json({ success: false, error: 'Please enter a valid Resume URL starting with http:// or https://' }, { status: 400 });
+      }
+    } else {
+      // file validation
+      if (!resumeBase64 || !resumeFileName) {
+        return NextResponse.json({ success: false, error: 'Please upload a Resume file.' }, { status: 400 });
+      }
+      
+      // Extension validation
+      const ext = path.extname(resumeFileName).toLowerCase();
+      if (!['.pdf', '.doc', '.docx'].includes(ext)) {
+        return NextResponse.json({ success: false, error: 'Unsupported file type. Please upload a PDF, DOC, or DOCX file.' }, { status: 400 });
+      }
+
+      // Check approximate size (Base64 is ~33% larger than binary data)
+      const estimatedBytes = (resumeBase64.length * 3) / 4;
+      if (estimatedBytes > 5.5 * 1024 * 1024) { // 5.5MB buffer for 5MB limit
+        return NextResponse.json({ success: false, error: 'File is too large. Max allowed size is 5MB.' }, { status: 400 });
+      }
+    }
+
     // Sanitize values
     const sanitizedMentor = {
       id: `mentor_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
@@ -49,6 +91,9 @@ export async function POST(request: Request) {
       curriculumExpertise: Array.isArray(curriculumExpertise) ? curriculumExpertise : curriculumExpertise.split(','),
       availability: availability ? availability.trim().replace(/[<>]/g, '') : '',
       introduction: introduction ? introduction.trim().replace(/[<>]/g, '') : '',
+      resumeType,
+      resumeLink: resumeType === 'link' ? resumeLink.trim() : '',
+      resumeFileName: resumeType === 'file' ? resumeFileName.trim().replace(/[<>]/g, '') : '',
       createdAt: new Date().toISOString(),
     };
 
@@ -77,7 +122,19 @@ export async function POST(request: Request) {
       }
     }
 
-    // 4. Send email notification to Admin
+    // 4. Set up attachments if file uploaded
+    const attachments = [];
+    if (resumeType === 'file' && resumeBase64) {
+      const base64Data = resumeBase64.includes(';base64,') 
+        ? resumeBase64.split(';base64,')[1] 
+        : resumeBase64;
+      attachments.push({
+        filename: sanitizedMentor.resumeFileName || 'resume.pdf',
+        content: Buffer.from(base64Data, 'base64'),
+      });
+    }
+
+    // 5. Send email notification to Admin
     const emailSubject = `🎓 New Mentor Application - ${sanitizedMentor.name}`;
     const emailHtml = `
       <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
@@ -85,7 +142,7 @@ export async function POST(request: Request) {
         <p>An educator has submitted a job application form to join the academy:</p>
         <table border="1" cellpadding="8" cellspacing="0" style="border-collapse: collapse; width: 100%; max-width: 500px; border-color: #ddd;">
           <tr style="background-color: #f9f9f9;">
-            <td style="padding: 10px;"><strong>Applicant Name</strong></td>
+            <td style="padding: 10px; width: 150px;"><strong>Applicant Name</strong></td>
             <td style="padding: 10px;">${sanitizedMentor.name}</td>
           </tr>
           <tr>
@@ -113,6 +170,14 @@ export async function POST(request: Request) {
             <td style="padding: 10px;">${sanitizedMentor.availability}</td>
           </tr>
           <tr>
+            <td style="padding: 10px;"><strong>Resume/CV</strong></td>
+            <td style="padding: 10px;">
+              ${resumeType === 'link' 
+                ? `<a href="${sanitizedMentor.resumeLink}" target="_blank" style="color: #0b5c36; font-weight: bold;">${sanitizedMentor.resumeLink}</a>` 
+                : `Attached file: <strong>${sanitizedMentor.resumeFileName}</strong>`}
+            </td>
+          </tr>
+          <tr style="background-color: #f9f9f9;">
             <td style="padding: 10px;"><strong>Date Submitted</strong></td>
             <td style="padding: 10px;">${sanitizedMentor.createdAt}</td>
           </tr>
@@ -127,7 +192,7 @@ export async function POST(request: Request) {
       </div>
     `;
 
-    await sendLeadEmail(emailSubject, emailHtml);
+    await sendLeadEmail(emailSubject, emailHtml, attachments);
 
     return NextResponse.json({
       success: true,

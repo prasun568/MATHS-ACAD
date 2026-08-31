@@ -1,6 +1,10 @@
 import nodemailer from 'nodemailer';
 
-export async function sendLeadEmail(subject: string, htmlContent: string) {
+export async function sendLeadEmail(
+  subject: string,
+  htmlContent: string,
+  attachments?: { filename: string; content: any; contentType?: string }[]
+) {
   const host = process.env.SMTP_HOST || 'smtp.gmail.com';
   const port = parseInt(process.env.SMTP_PORT || '587');
   const user = process.env.SMTP_USER;
@@ -17,6 +21,7 @@ export async function sendLeadEmail(subject: string, htmlContent: string) {
       `To: ${to}\n` +
       `Subject: ${subject}\n` +
       `Content:\n${htmlContent.replace(/<[^>]*>/g, '\n')}\n` +
+      `Attachments count: ${attachments ? attachments.length : 0}\n` +
       `------------------- DEMO EMAIL BLOCK END -------------------`
     );
     return { success: true, message: 'SMTP credentials missing. Logged to console.' };
@@ -38,6 +43,7 @@ export async function sendLeadEmail(subject: string, htmlContent: string) {
       to,
       subject,
       html: htmlContent,
+      attachments,
     });
 
     console.log(`[EMAIL MANAGER SUCCESS] Message sent: ${info.messageId}`);

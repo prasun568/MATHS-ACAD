@@ -123,3 +123,166 @@
     padding: 30px 20px;
   }
 }
+
+/* Resume / CV Section styling */
+.resumeToggle {
+  display: flex;
+  margin-top: 8px;
+  margin-bottom: 16px;
+  background-color: var(--bg-main);
+  padding: 4px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color-light);
+  width: max-content;
+}
+
+.toggleBtn {
+  background: none;
+  border: none;
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+}
+
+.toggleBtn:hover {
+  color: var(--text-primary);
+}
+
+.activeToggle {
+  background-color: var(--bg-card);
+  color: var(--primary) !important;
+  box-shadow: var(--shadow-sm);
+}
+
+.dropZone {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed var(--border-color);
+  background-color: var(--bg-main);
+  border-radius: var(--radius-md);
+  padding: 30px;
+  text-align: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.dropZone:hover, .dragActive {
+  border-color: var(--primary);
+  background-color: rgba(10, 92, 54, 0.03);
+}
+
+.fileInput {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.dropZoneLabel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.uploadIcon {
+  font-size: 2rem;
+  margin-bottom: 4px;
+}
+
+.uploadText {
+  font-size: 0.95rem;
+  color: var(--text-primary);
+}
+
+.uploadSubtext {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.fileInfo {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 15px;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: 12px 16px;
+  z-index: 3;
+}
+
+.fileIcon {
+  font-size: 1.8rem;
+}
+
+.fileDetails {
+  flex-grow: 1;
+  text-align: left;
+}
+
+.fileName {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+  word-break: break-all;
+}
+
+.fileSuccess {
+  font-size: 0.8rem;
+  color: var(--primary);
+  margin: 2px 0 0 0;
+  font-weight: 600;
+}
+
+.removeFileBtn {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  transition: background-color var(--transition-fast);
+}
+
+.removeFileBtn:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: #E53E3E;
+}
+
+.fileErrorText {
+  color: #E53E3E;
+  font-size: 0.85rem;
+  margin-top: 10px;
+  font-weight: 600;
+}
+
+.linkInputContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.helpText {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
