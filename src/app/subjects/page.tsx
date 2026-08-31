@@ -88,6 +88,72 @@ export default function Subjects() {
         </div>
       </section>
 
+      {/* USA Curricula Section */}
+      <section className="section-alt">
+        <div className="container">
+          <SectionHeading
+            title="USA Curricula"
+            subtitle="Comprehensive grade-level support, AP course preparation, and standardized test coaching."
+            centered
+          />
+          <div className={styles.coursesGrid}>
+            <div className={styles.courseColumn}>
+              <div className={styles.columnHeader}>
+                {renderPremiumIcon('ruler', styles.columnIcon)}
+                <h4>MATH</h4>
+              </div>
+              <ul className={styles.courseList}>
+                <li>Maths</li>
+                <li>Pre-Algebra</li>
+                <li>Algebra 1</li>
+                <li>Algebra 2</li>
+                <li>Pre-calculus</li>
+                <li>Geometry</li>
+                <li>Integrated Maths 1</li>
+                <li>Integrated Maths 2</li>
+                <li>Integrated Maths 3</li>
+                <li>Calculus</li>
+              </ul>
+            </div>
+
+            <div className={styles.courseColumn}>
+              <div className={styles.columnHeader}>
+                {renderPremiumIcon('atom', styles.columnIcon)}
+                <h4>AP COURSES</h4>
+              </div>
+              <ul className={styles.courseList}>
+                <li>AP Calculus</li>
+                <li>AP Physics</li>
+                <li>AP Chemistry</li>
+                <li>AP Biology</li>
+              </ul>
+            </div>
+
+            <div className={styles.courseColumn}>
+              <div className={styles.columnHeader}>
+                {renderPremiumIcon('book', styles.columnIcon)}
+                <h4>ENGLISH</h4>
+              </div>
+              <ul className={styles.courseList}>
+                <li>English</li>
+                <li>Science</li>
+              </ul>
+            </div>
+
+            <div className={styles.courseColumn}>
+              <div className={styles.columnHeader}>
+                {renderPremiumIcon('target', styles.columnIcon)}
+                <h4>TEST PREPARATION</h4>
+              </div>
+              <ul className={styles.courseList}>
+                <li>SAT Maths</li>
+                <li>SAT English</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Booking Prompt */}
       <section className="section-alt">
         <div className="container text-center">
