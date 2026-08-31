@@ -145,6 +145,11 @@ export default function MentorForm() {
       setErrorMessage('Please select at least one curriculum alignment.');
       return;
     }
+    if (!formData.availability.trim()) {
+      setStatus('error');
+      setErrorMessage('Please enter your daily availability.');
+      return;
+    }
 
     // Resume validation
     if (resumeType === 'link') {
@@ -321,7 +326,7 @@ export default function MentorForm() {
         </div>
 
         <div className="form-group">
-          <label htmlFor="mentor-availability" className="form-label">General Weekly Availability</label>
+          <label htmlFor="mentor-availability" className="form-label">Daily Availability *</label>
           <input
             type="text"
             id="mentor-availability"
@@ -329,7 +334,8 @@ export default function MentorForm() {
             value={formData.availability}
             onChange={handleChange}
             className="form-control"
-            placeholder="e.g. Weekdays 4 PM - 8 PM, Weekend Mornings"
+            placeholder="e.g. Daily 4 PM - 6 PM, or Mon-Fri 5 PM - 8 PM"
+            required
           />
         </div>
       </div>

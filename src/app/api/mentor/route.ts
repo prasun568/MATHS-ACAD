@@ -51,6 +51,9 @@ export async function POST(request: Request) {
     if (!curriculumExpertise || (Array.isArray(curriculumExpertise) && curriculumExpertise.length === 0) || (typeof curriculumExpertise === 'string' && !curriculumExpertise.trim())) {
       return NextResponse.json({ success: false, error: 'Please specify curriculum expertise.' }, { status: 400 });
     }
+    if (!availability || !availability.trim()) {
+      return NextResponse.json({ success: false, error: 'Daily availability is required.' }, { status: 400 });
+    }
 
     // Resume / CV validation
     if (!resumeType || !['link', 'file'].includes(resumeType)) {
@@ -166,7 +169,7 @@ export async function POST(request: Request) {
             <td style="padding: 10px;">${sanitizedMentor.curriculumExpertise.join(', ')}</td>
           </tr>
           <tr style="background-color: #f9f9f9;">
-            <td style="padding: 10px;"><strong>Weekly Availability</strong></td>
+            <td style="padding: 10px;"><strong>Daily Availability</strong></td>
             <td style="padding: 10px;">${sanitizedMentor.availability}</td>
           </tr>
           <tr>
