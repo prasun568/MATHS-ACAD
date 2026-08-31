@@ -1,6 +1,7 @@
 import React from 'react';
 import SectionHeading from '@/components/SectionHeading';
 import Button from '@/components/Button';
+import { renderPremiumIcon } from '@/components/Icons';
 import styles from './curricula.module.css';
 
 export default function Curricula() {
@@ -71,6 +72,67 @@ export default function Curricula() {
                   </p>
                 </div>
               </div>
+
+              {board.id === 'usa' && (
+                <div className={styles.coursesSection}>
+                  <h3 className={styles.coursesTitle}>Courses We Offer</h3>
+                  <div className={styles.coursesGrid}>
+                    <div className={styles.courseColumn}>
+                      <div className={styles.columnHeader}>
+                        {renderPremiumIcon('ruler', styles.columnIcon)}
+                        <h4>MATH</h4>
+                      </div>
+                      <ul className={styles.courseList}>
+                        <li>Maths</li>
+                        <li>Pre-Algebra</li>
+                        <li>Algebra 1</li>
+                        <li>Algebra 2</li>
+                        <li>Pre-calculus</li>
+                        <li>Geometry</li>
+                        <li>Integrated Maths 1</li>
+                        <li>Integrated Maths 2</li>
+                        <li>Integrated Maths 3</li>
+                        <li>Calculus</li>
+                      </ul>
+                    </div>
+
+                    <div className={styles.courseColumn}>
+                      <div className={styles.columnHeader}>
+                        {renderPremiumIcon('atom', styles.columnIcon)}
+                        <h4>AP COURSES</h4>
+                      </div>
+                      <ul className={styles.courseList}>
+                        <li>AP Calculus</li>
+                        <li>AP Physics</li>
+                        <li>AP Chemistry</li>
+                        <li>AP Biology</li>
+                      </ul>
+                    </div>
+
+                    <div className={styles.courseColumn}>
+                      <div className={styles.columnHeader}>
+                        {renderPremiumIcon('book', styles.columnIcon)}
+                        <h4>ENGLISH</h4>
+                      </div>
+                      <ul className={styles.courseList}>
+                        <li>English</li>
+                        <li>Science</li>
+                      </ul>
+                    </div>
+
+                    <div className={styles.courseColumn}>
+                      <div className={styles.columnHeader}>
+                        {renderPremiumIcon('target', styles.columnIcon)}
+                        <h4>TEST PREPARATION</h4>
+                      </div>
+                      <ul className={styles.courseList}>
+                        <li>SAT Maths</li>
+                        <li>SAT English</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </section>
