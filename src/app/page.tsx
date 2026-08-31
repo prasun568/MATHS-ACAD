@@ -479,28 +479,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Results & Testimonials placeholder */}
-      <section className="section-alt" id="testimonials">
-        <div className="container">
-          <SectionHeading
-            title="Academic Progress & Parent Testimonials"
-            subtitle="Verified academic growth and feedback. We protect privacy: names and scores are only shown with permission."
-            centered
-          />
-          <div className={styles.placeholderContainer}>
-            <div className={styles.placeholderCard}>
-              <p className={styles.placeholderLabel}>Verification Trust Seal</p>
-              <h3 className={styles.placeholderTitle}>Parent Reviews Under Verification</h3>
-              <p className={styles.placeholderText}>
-                We are currently consolidating certified performance reports, class-growth indicators, and parent consent forms. In compliance with advertising guidelines, we do not show fictionalized reviews or scores.
-              </p>
-              <p className={styles.placeholderInstruction}>
-                *Real parent feedback will be updated here once verified.*
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* FAQ Section */}
       <section className="section" id="faq">
