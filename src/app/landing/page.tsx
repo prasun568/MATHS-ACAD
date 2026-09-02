@@ -5,6 +5,10 @@ import styles from './landing.module.css';
 export default function LandingPage() {
   const trustBenefits = [
     {
+      title: 'Govt. of India MSME Registered',
+      desc: 'Official recognized academic enterprise (Udyam: UDYAM-MP-48-0022294).',
+    },
+    {
       title: 'Verified Tutors Only',
       desc: 'Selected for communication clarity, subject qualifications, and teaching experience.',
     },

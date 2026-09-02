@@ -15,6 +15,7 @@ export default function MentorForm() {
     honeypot: '',
   });
 
+  const [selectedGrades, setSelectedGrades] = useState<string[]>([]);
   const [selectedSubjects, setSelectedSubjects] = useState<string[]>([]);
   const [selectedCurricula, setSelectedCurricula] = useState<string[]>([]);
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
@@ -27,6 +28,27 @@ export default function MentorForm() {
   const [resumeBase64, setResumeBase64] = useState('');
   const [dragActive, setDragActive] = useState(false);
   const [fileError, setFileError] = useState('');
+
+  const gradesOptions = [
+    'Grade 3',
+    'Grade 4',
+    'Grade 5',
+    'Grade 6',
+    'Grade 7',
+    'Grade 8',
+    'Grade 9',
+    'Grade 10',
+    'Grade 11',
+    'Grade 12',
+  ];
+
+  const gradePresets = [
+    { label: 'Primary (Grades 3–5)', grades: ['Grade 3', 'Grade 4', 'Grade 5'] },
+    { label: 'Middle School (Grades 6–8)', grades: ['Grade 6', 'Grade 7', 'Grade 8'] },
+    { label: 'Secondary (Grades 9–10)', grades: ['Grade 9', 'Grade 10'] },
+    { label: 'Senior Secondary (Grades 11–12)', grades: ['Grade 11', 'Grade 12'] },
+    { label: 'All Grades (3–12)', grades: gradesOptions },
+  ];
 
   const subjectsOptions = [
     'Mathematics',
@@ -50,6 +72,21 @@ export default function MentorForm() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleGradeChange = (grade: string) => {
+    setSelectedGrades((prev) =>
+      prev.includes(grade) ? prev.filter((g) => g !== grade) : [...prev, grade]
+    );
+  };
+
+  const handleTogglePreset = (presetGrades: string[]) => {
+    const allSelected = presetGrades.every((g) => selectedGrades.includes(g));
+    if (allSelected) {
+      setSelectedGrades((prev) => prev.filter((g) => !presetGrades.includes(g)));
+    } else {
+      setSelectedGrades((prev) => Array.from(new Set([...prev, ...presetGrades])));
+    }
   };
 
   const handleSubjectChange = (subject: string) => {
@@ -130,6 +167,11 @@ export default function MentorForm() {
       setErrorMessage('Please enter your phone number.');
       return;
     }
+    if (selectedGrades.length === 0) {
+      setStatus('error');
+      setErrorMessage('Please select at least one grade level you want to teach.');
+      return;
+    }
     if (selectedSubjects.length === 0) {
       setStatus('error');
       setErrorMessage('Please select at least one subject.');
@@ -176,6 +218,7 @@ export default function MentorForm() {
 
     const payload = {
       ...formData,
+      grades: selectedGrades,
       subjects: selectedSubjects,
       curriculumExpertise: selectedCurricula,
       resumeType,
@@ -286,6 +329,42 @@ export default function MentorForm() {
             placeholder="e.g. +91 99999 88888"
             required
           />
+        </div>
+      </div>
+
+      <div className="form-group">
+        <label className="form-label">Grades You Want to Teach * (Select all that apply)</label>
+        <div className={styles.gradesContainer}>
+          <div className={styles.presetRow}>
+            <span className={styles.presetLabel}>Quick Select:</span>
+            {gradePresets.map((preset) => {
+              const isActive = preset.grades.every((g) => selectedGrades.includes(g));
+              return (
+                <button
+                  key={preset.label}
+                  type="button"
+                  onClick={() => handleTogglePreset(preset.grades)}
+                  className={`${styles.presetBtn} ${isActive ? styles.activePresetBtn : ''}`}
+                >
+                  {preset.label}
+                </button>
+              );
+            })}
+          </div>
+
+          <div className={styles.gradesGrid}>
+            {gradesOptions.map((grade) => (
+              <label key={grade} className={styles.checkboxLabel}>
+                <input
+                  type="checkbox"
+                  checked={selectedGrades.includes(grade)}
+                  onChange={() => handleGradeChange(grade)}
+                  className={styles.checkboxInput}
+                />
+                <span className={styles.checkboxText}>{grade}</span>
+              </label>
+            ))}
+          </div>
         </div>
       </div>
 

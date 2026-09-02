@@ -16,7 +16,7 @@ export default function Footer() {
       <footer className={styles.footerLanding}>
         <div className="container">
           <p className={styles.copy}>
-            &copy; {currentYear} The MathMatriX Academy. All rights reserved.
+            &copy; {currentYear} The MathMatriX Academy. Govt. of India MSME Registered (UDYAM-MP-48-0022294). All rights reserved.
           </p>
         </div>
       </footer>
@@ -42,8 +42,7 @@ export default function Footer() {
           </Link>
           <p className={styles.tagline}>Learn Smart. Learn Strong. Achieve More.</p>
           <p className={styles.description}>
-            A premium academic partner for parents. We provide concept-based, personalized online learning
-            for Grades 3–12 to bridge learning gaps and build lasting academic confidence.
+            A premium academic partner for parents. Govt. of India MSME Registered Enterprise (UDYAM-MP-48-0022294). We provide concept-based, personalized online learning for Grades 3–12 to bridge learning gaps and build lasting academic confidence.
           </p>
           <div className={styles.contactDetails}>
             <p>
@@ -56,6 +55,12 @@ export default function Footer() {
               <strong>WhatsApp:</strong>{' '}
               <a href="https://wa.me/918319531258?text=Hello%20MathMatriX%20Academy%2C%20I%20would%20like%20to%20know%20more%20about%20online%20classes." target="_blank" rel="noopener noreferrer" className={styles.contactLink}>
                 +91 83195 31258
+              </a>
+            </p>
+            <p>
+              <strong>Instagram:</strong>{' '}
+              <a href="https://instagram.com/the.mathmatrixacademy" target="_blank" rel="noopener noreferrer" className={styles.contactLink}>
+                @the.mathmatrixacademy
               </a>
             </p>
           </div>
@@ -106,7 +111,12 @@ export default function Footer() {
             &copy; {currentYear} The MathMatriX Academy. All rights reserved.
           </p>
           <div className={styles.bottomLinks}>
-            <span className={styles.placeholderLabel}>Verification Trust Seal</span>
+            <div className={styles.msmeSeal}>
+              <span className={styles.msmeIcon}>🇮🇳</span>
+              <span className={styles.msmeTitle}>MSME Registered</span>
+              <span className={styles.msmeDivider}>•</span>
+              <span className={styles.msmeNumber}>UDYAM-MP-48-0022294</span>
+            </div>
           </div>
         </div>
       </div>

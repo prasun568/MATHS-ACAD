@@ -47,6 +47,63 @@
   border: 1px solid var(--border-color-light);
 }
 
+.gradesContainer {
+  margin-top: 10px;
+  background-color: var(--bg-main);
+  padding: 20px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color-light);
+}
+
+.presetRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border-color-light);
+}
+
+.presetLabel {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-right: 4px;
+}
+
+.presetBtn {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  font-size: 0.825rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  font-family: inherit;
+}
+
+.presetBtn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.activePresetBtn {
+  background-color: var(--primary);
+  border-color: var(--primary);
+  color: #FFFFFF !important;
+}
+
+.gradesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 12px;
+}
+
 .checkboxLabel {
   display: flex;
   align-items: center;

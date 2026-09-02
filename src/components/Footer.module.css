@@ -134,12 +134,44 @@
   text-align: center;
 }
 
-.placeholderLabel {
+.msmeSeal {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   font-size: 0.8rem;
-  padding: 4px 10px;
-  border: 1px dashed rgba(255, 255, 255, 0.2);
-  border-radius: var(--radius-sm);
-  color: rgba(255, 255, 255, 0.4);
+  padding: 6px 14px;
+  background-color: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(184, 134, 11, 0.35);
+  border-radius: var(--radius-full);
+  color: rgba(255, 255, 255, 0.85);
+  transition: all var(--transition-fast);
+}
+
+.msmeSeal:hover {
+  border-color: var(--secondary);
+  background-color: rgba(184, 134, 11, 0.1);
+}
+
+.msmeIcon {
+  font-size: 0.95rem;
+  line-height: 1;
+}
+
+.msmeTitle {
+  font-weight: 700;
+  color: var(--secondary);
+  letter-spacing: 0.2px;
+}
+
+.msmeDivider {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.msmeNumber {
+  font-weight: 600;
+  font-family: monospace;
+  letter-spacing: 0.5px;
+  color: #FFFFFF;
 }
 
 .footerLanding {

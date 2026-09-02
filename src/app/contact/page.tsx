@@ -46,6 +46,33 @@ export default function ContactPage() {
               </div>
             </div>
 
+            <div className={styles.infoBlock}>
+              <span className={styles.icon}>📸</span>
+              <div className={styles.infoText}>
+                <h3>Instagram</h3>
+                <p>Follow our official page for academic tips, puzzles & announcements.</p>
+                <a
+                  href="https://instagram.com/the.mathmatrixacademy"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.contactValue}
+                >
+                  @the.mathmatrixacademy
+                </a>
+              </div>
+            </div>
+
+            <div className={styles.infoBlock}>
+              <span className={styles.icon}>🏛️</span>
+              <div className={styles.infoText}>
+                <h3>Government Registration</h3>
+                <p>Govt. of India MSME Registered Educational Enterprise</p>
+                <span className={styles.contactValue} style={{ color: 'var(--primary)', fontWeight: 700 }}>
+                  UDYAM-MP-48-0022294
+                </span>
+              </div>
+            </div>
+
             <div className={styles.hoursBlock}>
               <h4>Counseling Hours:</h4>
               <p>Monday to Sunday: 9:00 AM — 9:00 PM (IST)</p>

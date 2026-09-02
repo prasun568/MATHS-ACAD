@@ -198,12 +198,20 @@ export default function Home() {
         <div className={`container ${styles.heroContainer}`}>
           <div className={styles.heroGrid}>
             <div className={styles.heroContent}>
-              {/* Badge: Trusted by Parents. Loved by Students. */}
-              <div className={styles.heroBadgeBox}>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className={styles.shieldIcon}>
-                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                </svg>
-                <span className={styles.heroBadgeText}>Trusted by Parents. Loved by Students.</span>
+              {/* Badges: Parent Trust + MSME Registration */}
+              <div className={styles.heroBadgesRow}>
+                <div className={styles.heroBadgeBox}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className={styles.shieldIcon}>
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                  </svg>
+                  <span className={styles.heroBadgeText}>Trusted by Parents. Loved by Students.</span>
+                </div>
+
+                <div className={styles.msmeHeroBadge}>
+                  <span className={styles.msmeFlag}>🇮🇳</span>
+                  <span className={styles.msmeHeroText}>Govt. of India MSME Registered</span>
+                  <span className={styles.msmeHeroNumber}>(UDYAM-MP-48-0022294)</span>
+                </div>
               </div>
 
               {/* Headline matching screenshot layout */}

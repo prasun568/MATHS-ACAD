@@ -12,6 +12,7 @@ export async function POST(request: Request) {
       name, 
       email, 
       phone, 
+      grades,
       subjects, 
       experience, 
       curriculumExpertise, 
@@ -41,6 +42,9 @@ export async function POST(request: Request) {
     }
     if (!phone || phone.trim().length < 8) {
       return NextResponse.json({ success: false, error: 'Phone number is required.' }, { status: 400 });
+    }
+    if (!grades || (Array.isArray(grades) && grades.length === 0) || (typeof grades === 'string' && !grades.trim())) {
+      return NextResponse.json({ success: false, error: 'Please specify at least one grade level you want to teach.' }, { status: 400 });
     }
     if (!subjects || (Array.isArray(subjects) && subjects.length === 0) || (typeof subjects === 'string' && !subjects.trim())) {
       return NextResponse.json({ success: false, error: 'Please specify at least one subject.' }, { status: 400 });
@@ -89,6 +93,7 @@ export async function POST(request: Request) {
       name: name.trim().replace(/[<>]/g, ''),
       email: email.trim().toLowerCase(),
       phone: phone.trim().replace(/[<>]/g, ''),
+      grades: Array.isArray(grades) ? grades : grades.split(','),
       subjects: Array.isArray(subjects) ? subjects : subjects.split(','),
       experience: experience.trim().replace(/[<>]/g, ''),
       curriculumExpertise: Array.isArray(curriculumExpertise) ? curriculumExpertise : curriculumExpertise.split(','),
@@ -157,14 +162,18 @@ export async function POST(request: Request) {
             <td style="padding: 10px;">${sanitizedMentor.phone}</td>
           </tr>
           <tr>
-            <td style="padding: 10px;"><strong>Teaching Experience</strong></td>
-            <td style="padding: 10px;">${sanitizedMentor.experience}</td>
+            <td style="padding: 10px;"><strong>Target Grades</strong></td>
+            <td style="padding: 10px;">${sanitizedMentor.grades.join(', ')}</td>
           </tr>
           <tr style="background-color: #f9f9f9;">
             <td style="padding: 10px;"><strong>Target Subjects</strong></td>
             <td style="padding: 10px;">${sanitizedMentor.subjects.join(', ')}</td>
           </tr>
           <tr>
+            <td style="padding: 10px;"><strong>Teaching Experience</strong></td>
+            <td style="padding: 10px;">${sanitizedMentor.experience}</td>
+          </tr>
+          <tr style="background-color: #f9f9f9;">
             <td style="padding: 10px;"><strong>Curriculum Expertise</strong></td>
             <td style="padding: 10px;">${sanitizedMentor.curriculumExpertise.join(', ')}</td>
           </tr>
