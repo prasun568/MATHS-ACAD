@@ -309,7 +309,7 @@ export async function POST(request: Request) {
     `;
 
     // Dispatch both notifications concurrently
-    await Promise.allSettled([
+    const [leadRes, candidateRes] = await Promise.allSettled([
       sendLeadEmail(emailSubject, emailHtml, attachments),
       sendEmail({
         to: sanitizedMentor.email,
@@ -319,6 +319,14 @@ export async function POST(request: Request) {
       }),
     ]);
 
+    const leadEmailSent = leadRes.status === 'fulfilled' && leadRes.value?.success;
+    const candidateEmailSent = candidateRes.status === 'fulfilled' && candidateRes.value?.success;
+
+    console.log('[MENTOR API] Email Dispatch Status:', {
+      adminNotification: leadEmailSent ? 'SENT' : leadRes,
+      candidateInvitation: candidateEmailSent ? 'SENT' : candidateRes,
+    });
+
     return NextResponse.json({
       success: true,
       message: isProductionDbConfigured 
@@ -326,6 +334,13 @@ export async function POST(request: Request) {
         : 'Application saved to local development file mentors_development.json (Database not configured).',
       isDemoMode: !isProductionDbConfigured,
       applicationId: sanitizedMentor.id,
+      emailDelivery: {
+        adminEmailSent: leadEmailSent,
+        candidateEmailSent: candidateEmailSent,
+        warning: (!leadEmailSent || !candidateEmailSent)
+          ? 'Email dispatch pending. Please configure SMTP_USER & SMTP_PASS (or RESEND_API_KEY) in Vercel Environment Variables.'
+          : undefined,
+      },
       interviewDetails: {
         scheduledFor: `Tomorrow at 10:00 AM IST (${formattedTomorrowDate})`,
         zoomLink: ZOOM_INTERVIEW_LINK,

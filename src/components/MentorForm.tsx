@@ -20,6 +20,7 @@ export default function MentorForm() {
   const [selectedCurricula, setSelectedCurricula] = useState<string[]>([]);
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
+  const [emailSent, setEmailSent] = useState(false);
   const [interviewInfo, setInterviewInfo] = useState<{
     scheduledFor: string;
     zoomLink: string;
@@ -254,6 +255,7 @@ export default function MentorForm() {
             candidateEmail: formData.email,
           }
         );
+        setEmailSent(!!result.emailDelivery?.candidateEmailSent);
         setStatus('success');
       } else {
         setStatus('error');
@@ -285,6 +287,7 @@ export default function MentorForm() {
     setResumeBase64('');
     setStatus('idle');
     setInterviewInfo(null);
+    setEmailSent(false);
     setCopied(false);
   };
 
@@ -312,10 +315,20 @@ export default function MentorForm() {
     return (
       <div className={styles.successCard} role="alert">
         <div className={styles.successIcon}>✓</div>
-        <span className={styles.successBadge}>Interview Details Sent to Your Email</span>
+        <span className={styles.successBadge}>
+          {emailSent ? 'Interview Details Sent to Your Email' : 'Online Interview Scheduled'}
+        </span>
         <h3 className={styles.successTitle}>Application Submitted Successfully!</h3>
         <p className={styles.successText}>
-          Thank you for applying to join <strong>The MathMatriX Academy</strong>. We have sent your interview confirmation and Zoom meeting link directly to <strong>{candidateEmail}</strong>.
+          {emailSent ? (
+            <>
+              Thank you for applying to join <strong>The MathMatriX Academy</strong>. We have sent your interview confirmation and Zoom meeting link directly to <strong>{candidateEmail}</strong>.
+            </>
+          ) : (
+            <>
+              Thank you for applying to join <strong>The MathMatriX Academy</strong>. Please note your interview schedule and join link below:
+            </>
+          )}
         </p>
 
         <div className={styles.interviewCard}>
