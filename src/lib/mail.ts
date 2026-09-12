@@ -55,8 +55,8 @@ async function sendViaResend({
         let contentStr = '';
         if (typeof att.content === 'string') {
           contentStr = att.content.replace(/^data:[^;]+;base64,/, '');
-        } else if (Buffer.isBuffer(att.content)) {
-          contentStr = att.content.toString('base64');
+        } else if (att.content) {
+          contentStr = Buffer.from(att.content).toString('base64');
         }
         return {
           filename: att.filename,
@@ -77,9 +77,15 @@ async function sendViaResend({
     const data = await res.json();
     if (!res.ok) {
       console.error('[RESEND API ERROR]', data);
+      const isDomainRestriction =
+        data.message?.includes('only send testing emails') ||
+        data.message?.includes('verify your domain') ||
+        res.status === 403;
+
       return {
         success: false,
         error: data.message || `Resend error: ${res.statusText}`,
+        code: isDomainRestriction ? 'RESEND_DOMAIN_RESTRICTION' : undefined,
         provider: 'Resend',
       };
     }
@@ -205,7 +211,7 @@ export async function sendEmail({
   // 1. Check for Resend API Key first (fastest and most reliable on serverless)
   const resendApiKey = process.env.RESEND_API_KEY?.trim();
   if (resendApiKey) {
-    return sendViaResend({
+    const resendResult = await sendViaResend({
       apiKey: resendApiKey,
       fromName,
       to: recipient,
@@ -213,6 +219,17 @@ export async function sendEmail({
       html,
       attachments,
     });
+
+    if (resendResult.success) {
+      return resendResult;
+    }
+
+    console.warn(`[EMAIL MANAGER] Resend delivery to <${recipient}> failed:`, resendResult.error);
+    const hasSmtp = !!(process.env.SMTP_USER?.trim() && process.env.SMTP_PASS?.trim());
+    if (!hasSmtp) {
+      return resendResult;
+    }
+    console.log(`[EMAIL MANAGER] Attempting SMTP fallback for <${recipient}>...`);
   }
 
   // 2. Check for SMTP credentials

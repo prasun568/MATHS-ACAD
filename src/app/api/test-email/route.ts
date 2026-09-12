@@ -64,18 +64,39 @@ export async function GET(request: Request) {
       `,
       fromName: 'TMMA System Verification',
     });
+
+    const isDomainRestriction =
+      sendResult?.code === 'RESEND_DOMAIN_RESTRICTION' ||
+      sendResult?.error?.includes('only send testing emails');
+
+    return NextResponse.json(
+      {
+        status: sendResult.success ? 'success' : 'delivery_failed',
+        message: sendResult.success
+          ? `Email successfully delivered to <${adminEmail}> via ${sendResult.provider || 'configured provider'}.`
+          : `Failed to deliver email to <${adminEmail}>: ${sendResult.error}`,
+        provider: sendResult.provider,
+        targetEmail: adminEmail,
+        sendResult,
+        troubleshooting: isDomainRestriction
+          ? {
+              cause: 'Resend free sandbox (onboarding@resend.dev) restricts delivery ONLY to the email address used to register the Resend account.',
+              fixOption1: 'In Vercel, add SMTP_USER & SMTP_PASS (Gmail App Password). Gmail SMTP has no recipient restrictions and delivers 100% reliably.',
+              fixOption2: 'If you want to use Resend, verify your custom domain in Resend Dashboard (resend.com/domains) by adding DNS records.',
+              fixOption3: 'Create a free Resend account directly with themathmatrixacademy@gmail.com so the academy is the verified recipient.',
+            }
+          : undefined,
+      },
+      { status: 200 }
+    );
   }
 
   return NextResponse.json(
     {
-      status: 'success',
+      status: 'ready',
       message: verification.message,
       details: verification.details,
-      testEmailDispatched: shouldSendTest,
-      sendResult,
-      tip: shouldSendTest
-        ? 'A live test email was dispatched to your inbox. Check Spam/Promotions if not visible in Primary.'
-        : 'To send a live test email to the academy inbox, open: /api/test-email?send=true',
+      instructions: 'To test sending a live email to the academy address right now, open: /api/test-email?send=true',
     },
     { status: 200 }
   );
