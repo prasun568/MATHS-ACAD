@@ -136,44 +136,195 @@
 /* Success Card */
 .successCard {
   background-color: var(--bg-card);
-  padding: 50px 30px;
+  padding: 40px 30px;
   border-radius: var(--radius-lg);
-  border: 2px solid var(--primary-light);
+  border: 1px solid var(--border-color);
   box-shadow: var(--shadow-lg);
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  max-width: 600px;
+  max-width: 650px;
   margin: 0 auto;
 }
 
 .successIcon {
-  width: 65px;
-  height: 65px;
+  width: 64px;
+  height: 64px;
   border-radius: var(--radius-full);
-  background-color: var(--primary-light);
-  color: var(--primary);
-  font-size: 2.2rem;
+  background-color: #E6F4EA;
+  color: #137333;
+  font-size: 2rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
   font-weight: bold;
 }
 
 .successTitle {
-  font-size: 1.6rem;
+  font-size: 1.7rem;
+  font-weight: 700;
   color: var(--primary);
-  margin-bottom: 12px;
+  margin-bottom: 10px;
+}
+
+.successBadge {
+  display: inline-block;
+  background-color: #FEF3C7;
+  color: #92400E;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+  border: 1px solid #FCD34D;
 }
 
 .successText {
-  font-size: 1rem;
+  font-size: 0.95rem;
   color: var(--text-secondary);
   line-height: 1.6;
+  margin-bottom: 24px;
 }
+
+.interviewCard {
+  width: 100%;
+  background-color: var(--bg-main);
+  border: 1px solid var(--border-color);
+  border-left: 5px solid var(--secondary);
+  border-radius: var(--radius-md);
+  padding: 22px 24px;
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+.interviewCardTitle {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.interviewDetailsList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.interviewRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 0.9rem;
+  border-bottom: 1px dashed var(--border-color);
+  padding-bottom: 8px;
+}
+
+.interviewRow:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.interviewLabel {
+  color: var(--text-light);
+  font-weight: 500;
+  min-width: 110px;
+}
+
+.interviewValue {
+  color: var(--text-primary);
+  font-weight: 600;
+  text-align: right;
+}
+
+.zoomActionGroup {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.zoomPrimaryBtn {
+  flex: 1;
+  min-width: 180px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: var(--primary);
+  color: #FFFFFF;
+  text-decoration: none;
+  padding: 12px 18px;
+  font-size: 0.925rem;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  transition: background-color var(--transition-fast);
+}
+
+.zoomPrimaryBtn:hover {
+  background-color: var(--primary-hover);
+}
+
+.zoomCopyBtn {
+  background-color: #FFFFFF;
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  padding: 12px 16px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.zoomCopyBtn:hover {
+  background-color: var(--primary-light);
+  border-color: var(--text-secondary);
+}
+
+.slotHelpBox {
+  width: 100%;
+  background-color: #FFFBEB;
+  border: 1px solid #FCD34D;
+  border-radius: var(--radius-md);
+  padding: 14px 18px;
+  text-align: left;
+  font-size: 0.9rem;
+  color: #92400E;
+  line-height: 1.5;
+  margin-bottom: 24px;
+}
+
+.slotHelpPhone {
+  color: #B45309;
+  font-weight: 700;
+  text-decoration: underline;
+  display: inline-block;
+  margin-top: 4px;
+}
+
+.resetBtn {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  text-decoration: underline;
+  cursor: pointer;
+  transition: color var(--transition-fast);
+}
+
+.resetBtn:hover {
+  color: var(--primary);
+}
+
 
 @media (max-width: 768px) {
   .form {

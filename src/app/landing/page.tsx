@@ -28,7 +28,12 @@ export default function LandingPage() {
       <div className={styles.adHeader}>
         <div className="container">
           <p className={styles.adHook}>
-            🎯 <strong>Parents:</strong> Is your child struggling with Maths, Science or English? Let's identify the gaps.
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ display: 'inline-block', verticalAlign: '-2px', marginRight: '6px' }}>
+              <circle cx="12" cy="12" r="10"/>
+              <circle cx="12" cy="12" r="6"/>
+              <circle cx="12" cy="12" r="2"/>
+            </svg>
+            <strong>Parents:</strong> Is your child struggling with Maths, Science or English? Let's identify the gaps.
           </p>
         </div>
       </div>
@@ -57,7 +62,10 @@ export default function LandingPage() {
             </div>
 
             <div className={styles.socialProof}>
-              <p>⭐⭐⭐⭐⭐ Trusted by parents for CBSE, ICSE, IGCSE, and USA Curriculum support.</p>
+              <p>
+                <span style={{ color: '#E5A100', marginRight: '6px', letterSpacing: '2px' }}>★★★★★</span>
+                Trusted by parents for CBSE, ICSE, IGCSE, and USA Curriculum support.
+              </p>
             </div>
           </div>
 

@@ -20,6 +20,13 @@ export default function MentorForm() {
   const [selectedCurricula, setSelectedCurricula] = useState<string[]>([]);
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
+  const [interviewInfo, setInterviewInfo] = useState<{
+    scheduledFor: string;
+    zoomLink: string;
+    contactPhone: string;
+    candidateEmail: string;
+  } | null>(null);
+  const [copied, setCopied] = useState(false);
 
   // Resume state variables
   const [resumeType, setResumeType] = useState<'file' | 'link'>('file');
@@ -239,6 +246,14 @@ export default function MentorForm() {
       const result = await response.json();
 
       if (response.ok && result.success) {
+        setInterviewInfo(
+          result.interviewDetails || {
+            scheduledFor: 'Tomorrow at 10:00 AM IST',
+            zoomLink: 'https://us06web.zoom.us/j/89307082370?pwd=HVDyVmIFPLnXG8bG19HD9sJn9dln04.1',
+            contactPhone: '7828440234',
+            candidateEmail: formData.email,
+          }
+        );
         setStatus('success');
       } else {
         setStatus('error');
@@ -251,14 +266,110 @@ export default function MentorForm() {
     }
   };
 
+  const handleReset = () => {
+    setFormData({
+      name: '',
+      email: '',
+      phone: '',
+      experience: '',
+      availability: '',
+      introduction: '',
+      honeypot: '',
+    });
+    setSelectedGrades([]);
+    setSelectedSubjects([]);
+    setSelectedCurricula([]);
+    setResumeType('file');
+    setResumeLink('');
+    setResumeFileName('');
+    setResumeBase64('');
+    setStatus('idle');
+    setInterviewInfo(null);
+    setCopied(false);
+  };
+
   if (status === 'success') {
+    const zoomLink =
+      interviewInfo?.zoomLink ||
+      'https://us06web.zoom.us/j/89307082370?pwd=HVDyVmIFPLnXG8bG19HD9sJn9dln04.1';
+    const contactPhone = interviewInfo?.contactPhone || '7828440234';
+    const scheduledTime = interviewInfo?.scheduledFor || 'Tomorrow at 10:00 AM IST';
+    const candidateEmail = interviewInfo?.candidateEmail || formData.email;
+
+    const handleCopy = () => {
+      if (typeof window !== 'undefined' && navigator?.clipboard) {
+        navigator.clipboard.writeText(zoomLink).then(() => {
+          setCopied(true);
+          setTimeout(() => setCopied(false), 2500);
+        }).catch(() => {
+          // fallback
+          setCopied(true);
+          setTimeout(() => setCopied(false), 2500);
+        });
+      }
+    };
+
     return (
       <div className={styles.successCard} role="alert">
         <div className={styles.successIcon}>✓</div>
-        <h3 className={styles.successTitle}>Application Submitted!</h3>
+        <span className={styles.successBadge}>Interview Details Sent to Your Email</span>
+        <h3 className={styles.successTitle}>Application Submitted Successfully!</h3>
         <p className={styles.successText}>
-          Thank you for applying to **The MathMatriX Academy** mentor panel. Our academic review team will verify your credentials and contact you within 3–5 working days to schedule a mock demonstration class.
+          Thank you for applying to join <strong>The MathMatriX Academy</strong>. We have sent your interview confirmation and Zoom meeting link directly to <strong>{candidateEmail}</strong>.
         </p>
+
+        <div className={styles.interviewCard}>
+          <div className={styles.interviewCardTitle}>
+            <span>🗓️</span>
+            <span>Online Interview Schedule</span>
+          </div>
+
+          <div className={styles.interviewDetailsList}>
+            <div className={styles.interviewRow}>
+              <span className={styles.interviewLabel}>Scheduled Slot:</span>
+              <span className={styles.interviewValue}>{scheduledTime}</span>
+            </div>
+            <div className={styles.interviewRow}>
+              <span className={styles.interviewLabel}>Platform:</span>
+              <span className={styles.interviewValue}>Zoom Video Meeting</span>
+            </div>
+            <div className={styles.interviewRow}>
+              <span className={styles.interviewLabel}>Role Applied:</span>
+              <span className={styles.interviewValue}>Educator / Mentor</span>
+            </div>
+          </div>
+
+          <div className={styles.zoomActionGroup}>
+            <a
+              href={zoomLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.zoomPrimaryBtn}
+            >
+              <span>🎥</span>
+              <span>Join Zoom Meeting</span>
+            </a>
+            <button
+              type="button"
+              onClick={handleCopy}
+              className={styles.zoomCopyBtn}
+            >
+              {copied ? '✓ Copied Link' : '📋 Copy Zoom Link'}
+            </button>
+          </div>
+        </div>
+
+        <div className={styles.slotHelpBox}>
+          <strong>⚠️ Slot Issue or Need Rescheduling?</strong><br />
+          If you have any issue in the given slot, please contact on this number:{' '}
+          <a href={`tel:${contactPhone}`} className={styles.slotHelpPhone}>
+            {contactPhone}
+          </a>
+        </div>
+
+        <button type="button" onClick={handleReset} className={styles.resetBtn}>
+          ← Submit another application
+        </button>
       </div>
     );
   }
@@ -494,7 +605,15 @@ export default function MentorForm() {
             
             {resumeFileName ? (
               <div className={styles.fileInfo}>
-                <span className={styles.fileIcon}>📄</span>
+                <span className={styles.fileIcon} aria-hidden="true">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                    <polyline points="14 2 14 8 20 8" />
+                    <line x1="16" y1="13" x2="8" y2="13" />
+                    <line x1="16" y1="17" x2="8" y2="17" />
+                    <polyline points="10 9 9 9 8 9" />
+                  </svg>
+                </span>
                 <div className={styles.fileDetails}>
                   <p className={styles.fileName}>{resumeFileName}</p>
                   <p className={styles.fileSuccess}>File loaded successfully</p>
@@ -513,7 +632,13 @@ export default function MentorForm() {
               </div>
             ) : (
               <label htmlFor="resume-file-input" className={styles.dropZoneLabel}>
-                <span className={styles.uploadIcon}>📤</span>
+                <span className={styles.uploadIcon} aria-hidden="true">
+                  <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                    <polyline points="17 8 12 3 7 8" />
+                    <line x1="12" y1="3" x2="12" y2="15" />
+                  </svg>
+                </span>
                 <span className={styles.uploadText}>
                   <strong>Click to upload</strong> or drag & drop
                 </span>

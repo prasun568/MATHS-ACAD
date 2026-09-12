@@ -47,9 +47,68 @@
   align-items: flex-start;
 }
 
-.icon {
-  font-size: 2rem;
-  line-height: 1;
+.iconBox {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all var(--transition-fast);
+  box-shadow: var(--shadow-sm);
+}
+
+.whatsappIconBox {
+  background: rgba(37, 211, 102, 0.12);
+  color: #128C7E;
+  border: 1px solid rgba(37, 211, 102, 0.3);
+}
+
+.infoBlock:hover .whatsappIconBox {
+  background: #25D366;
+  color: #FFFFFF;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(37, 211, 102, 0.25);
+}
+
+.emailIconBox {
+  background: rgba(6, 19, 32, 0.06);
+  color: var(--primary);
+  border: 1px solid rgba(6, 19, 32, 0.15);
+}
+
+.infoBlock:hover .emailIconBox {
+  background: var(--primary);
+  color: #FFFFFF;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(6, 19, 32, 0.2);
+}
+
+.instaIconBox {
+  background: rgba(225, 48, 108, 0.1);
+  color: #E1306C;
+  border: 1px solid rgba(225, 48, 108, 0.25);
+}
+
+.infoBlock:hover .instaIconBox {
+  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+  color: #FFFFFF;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(225, 48, 108, 0.3);
+}
+
+.govIconBox {
+  background: rgba(184, 134, 11, 0.12);
+  color: var(--secondary);
+  border: 1px solid rgba(184, 134, 11, 0.35);
+}
+
+.infoBlock:hover .govIconBox {
+  background: var(--secondary);
+  color: #FFFFFF;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(184, 134, 11, 0.3);
 }
 
 .infoText h3 {
