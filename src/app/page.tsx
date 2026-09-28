@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import Button from '@/components/Button';
 import SectionHeading from '@/components/SectionHeading';
 import FAQAccordion from '@/components/FAQAccordion';
@@ -207,11 +208,11 @@ export default function Home() {
                   <span className={styles.heroBadgeText}>Trusted by Parents. Loved by Students.</span>
                 </div>
 
-                <div className={styles.msmeHeroBadge}>
+                <Link href="/credentials" className={styles.msmeHeroBadge} title="View official MSME registration certificate">
                   <span className={styles.msmeFlag}>🇮🇳</span>
                   <span className={styles.msmeHeroText}>Govt. of India MSME Registered</span>
                   <span className={styles.msmeHeroNumber}>(UDYAM-MP-48-0022294)</span>
-                </div>
+                </Link>
               </div>
 
               {/* Headline matching screenshot layout */}
@@ -283,6 +284,31 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Trust Strip */}
+      <section className={styles.trustStrip}>
+        <div className={`container ${styles.trustStripContainer}`}>
+          <div className={styles.trustStripItems}>
+            <div className={styles.trustStripItem}>
+              <span className={styles.trustCheck}>✓</span>
+              <span><strong>MSME Registered</strong> <span className={styles.trustNum}>(UDYAM-MP-48-0022294)</span></span>
+            </div>
+            <span className={styles.trustDivider}>|</span>
+            <div className={styles.trustStripItem}>
+              <span className={styles.trustCheck}>✓</span>
+              <span><strong>MP Shop &amp; Establishment</strong> Registered</span>
+            </div>
+            <span className={styles.trustDivider}>|</span>
+            <div className={styles.trustStripItem}>
+              <span className={styles.trustCheck}>✓</span>
+              <span><strong>Professional</strong> Online Academy</span>
+            </div>
+          </div>
+          <Link href="/credentials" className={styles.trustStripLink}>
+            View Certificates &rarr;
+          </Link>
+        </div>
+      </section>
+
       {/* Why Choose Us Section */}
       <section className="section">
         <div className="container">
@@ -301,6 +327,61 @@ export default function Home() {
                 <p className={styles.benefitDesc}>{b.description}</p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Trust & Credentials Section */}
+      <section className="section-alt" id="credentials">
+        <div className="container">
+          <SectionHeading
+            badge="GOVERNMENT REGISTERED & COMPLIANT"
+            title="Our Credentials & Compliance"
+            subtitle="The MathMatriX Academy is a legally registered, government-compliant educational enterprise committed to academic integrity, quality mentoring, and parent transparency."
+            centered
+          />
+          <div className="grid-3">
+            <div className={styles.credCard}>
+              <div className={styles.credCardHeader}>
+                <span className={styles.credBadge}>MSME REGISTERED</span>
+                <span className={styles.credCheckIcon}>✓</span>
+              </div>
+              <h3 className={styles.credTitle}>Govt. of India MSME</h3>
+              <p className={styles.credRegNumber}>UDYAM-MP-48-0022294</p>
+              <p className={styles.credDesc}>
+                Formally registered under the Ministry of Micro, Small and Medium Enterprises for Academic Tutoring Services (NIC 85491).
+              </p>
+            </div>
+
+            <div className={styles.credCard}>
+              <div className={styles.credCardHeader}>
+                <span className={styles.credBadge}>STATE COMPLIANT</span>
+                <span className={styles.credCheckIcon}>✓</span>
+              </div>
+              <h3 className={styles.credTitle}>MP Shops &amp; Establishments</h3>
+              <p className={styles.credRegNumber}>Tikamgarh Jurisdiction</p>
+              <p className={styles.credDesc}>
+                Operating in full statutory compliance with Madhya Pradesh state commercial and educational service norms.
+              </p>
+            </div>
+
+            <div className={styles.credCard}>
+              <div className={styles.credCardHeader}>
+                <span className={styles.credBadge}>ACADEMIC INTEGRITY</span>
+                <span className={styles.credCheckIcon}>✓</span>
+              </div>
+              <h3 className={styles.credTitle}>Verified Mentorship</h3>
+              <p className={styles.credRegNumber}>Led by Vidur Namdev</p>
+              <p className={styles.credDesc}>
+                8+ years experience, rigorous multi-point educator screening, diagnostic benchmarks, and direct founder governance.
+              </p>
+            </div>
+          </div>
+
+          <div className={styles.credActionRow}>
+            <Button variant="primary" size="md" href="/credentials">
+              VIEW OFFICIAL CERTIFICATES &amp; REGISTRY DETAILS &rarr;
+            </Button>
           </div>
         </div>
       </section>

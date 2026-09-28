@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import ContactForm from '@/components/ContactForm';
 import Button from '@/components/Button';
 import styles from './contact.module.css';
@@ -95,6 +96,11 @@ export default function ContactPage() {
                 <span className={styles.contactValue} style={{ color: 'var(--primary)', fontWeight: 700 }}>
                   UDYAM-MP-48-0022294
                 </span>
+                <div>
+                  <Link href="/credentials" style={{ display: 'inline-block', marginTop: '6px', fontSize: '0.85rem', color: 'var(--secondary)', fontWeight: 600, textDecoration: 'underline' }}>
+                    View Official Certificate &amp; Credentials &rarr;
+                  </Link>
+                </div>
               </div>
             </div>
 

@@ -767,3 +767,140 @@
     padding: 30px 20px;
   }
 }
+
+/* Trust Strip */
+.trustStrip {
+  background-color: #040d16;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 14px 0;
+  position: relative;
+  z-index: 4;
+}
+
+.trustStripContainer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.trustStripItems {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  color: #e2e8f0;
+  font-size: 0.88rem;
+}
+
+.trustStripItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.trustCheck {
+  color: #10b981;
+  font-weight: 800;
+  font-size: 1rem;
+}
+
+.trustNum {
+  font-family: monospace;
+  color: var(--secondary);
+  font-weight: 600;
+  font-size: 0.82rem;
+}
+
+.trustDivider {
+  color: rgba(255, 255, 255, 0.2);
+}
+
+.trustStripLink {
+  color: var(--secondary);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.trustStripLink:hover {
+  color: #ffd700;
+  transform: translateX(3px);
+}
+
+/* Credentials Section on Homepage */
+.credCard {
+  background: #ffffff;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  padding: 28px 24px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  transition: all 0.25s ease;
+}
+
+.credCard:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+  border-color: rgba(184, 134, 11, 0.4);
+}
+
+.credCardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.credBadge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding: 3px 8px;
+  background: rgba(184, 134, 11, 0.12);
+  color: #9e720a;
+  border-radius: var(--radius-full);
+}
+
+.credCheckIcon {
+  color: #10b981;
+  font-weight: 800;
+  font-size: 1.1rem;
+}
+
+.credTitle {
+  font-family: var(--font-headings);
+  font-size: 1.25rem;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+
+.credRegNumber {
+  font-family: monospace;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--secondary);
+  margin-bottom: 12px;
+}
+
+.credDesc {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.credActionRow {
+  display: flex;
+  justify-content: center;
+  margin-top: 36px;
+}
+

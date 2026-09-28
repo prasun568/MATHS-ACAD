@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import SectionHeading from '@/components/SectionHeading';
 import Button from '@/components/Button';
 import styles from './about.module.css';
@@ -26,7 +27,7 @@ export default function About() {
                 badge="OUR ORIGIN"
               />
               <p className={styles.text}>
-                The MathMatriX Academy is a Government of India MSME Registered educational enterprise (Udyam Reg. No: UDYAM-MP-48-0022294) founded to bridge the gap between rote memorization and true conceptual understanding. In typical large classroom environments, individual student learning paces are often overlooked, leading to learning gaps that accumulate over school terms.
+                The MathMatriX Academy is a Government of India MSME Registered educational enterprise (<Link href="/credentials" style={{ color: 'var(--secondary)', textDecoration: 'underline', fontWeight: 600 }}>Udyam Reg. No: UDYAM-MP-48-0022294</Link>) founded to bridge the gap between rote memorization and true conceptual understanding. In typical large classroom environments, individual student learning paces are often overlooked, leading to learning gaps that accumulate over school terms.
               </p>
               <p className={styles.text}>
                 We believe that every student has the potential to excel in STEM fields and languages if they are supported by the right mentor and guided at a speed that matches their learning profile.
@@ -122,7 +123,9 @@ export default function About() {
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className={styles.checkIcon}>
                         <polyline points="20 6 9 17 4 12"></polyline>
                       </svg>
-                      Govt. of India MSME Registered (UDYAM-MP-48-0022294)
+                      <Link href="/credentials" style={{ color: 'inherit', textDecoration: 'underline' }}>
+                        Govt. of India MSME Registered (UDYAM-MP-48-0022294) &rarr;
+                      </Link>
                     </li>
                   </ul>
                 </div>

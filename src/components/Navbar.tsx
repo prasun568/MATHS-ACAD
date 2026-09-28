@@ -41,6 +41,7 @@ export default function Navbar() {
     { label: 'Programs', href: '/programs' },
     { label: 'Curricula', href: '/curricula' },
     { label: 'Subjects', href: '/subjects' },
+    { label: 'Credentials', href: '/credentials' },
     { label: 'How It Works', href: '/how-it-works' },
     { label: 'Results', href: '/results' },
     { label: 'FAQs', href: '/faqs' },

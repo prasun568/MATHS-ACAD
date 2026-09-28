@@ -97,9 +97,10 @@ export default function Footer() {
 
           <h4 className={`${styles.heading} ${styles.socialHeader}`}>Quick Links</h4>
           <ul className={styles.links}>
+            <li><Link href="/credentials" className={styles.link}>Trust &amp; Credentials (MSME)</Link></li>
             <li><Link href="/about" className={styles.link}>About Our Philosophy</Link></li>
             <li><Link href="/how-it-works" className={styles.link}>Our 5-Step Process</Link></li>
-            <li><Link href="/results" className={styles.link}>Results & Progress Tracking</Link></li>
+            <li><Link href="/results" className={styles.link}>Results &amp; Progress Tracking</Link></li>
             <li><Link href="/faqs" className={styles.link}>Frequently Asked Questions</Link></li>
           </ul>
         </div>
@@ -111,12 +112,12 @@ export default function Footer() {
             &copy; {currentYear} The MathMatriX Academy. All rights reserved.
           </p>
           <div className={styles.bottomLinks}>
-            <div className={styles.msmeSeal}>
+            <Link href="/credentials" className={styles.msmeSeal} title="View official government registration certificate">
               <span className={styles.msmeIcon}>🇮🇳</span>
               <span className={styles.msmeTitle}>MSME Registered</span>
               <span className={styles.msmeDivider}>•</span>
               <span className={styles.msmeNumber}>UDYAM-MP-48-0022294</span>
-            </div>
+            </Link>
           </div>
         </div>
       </div>
