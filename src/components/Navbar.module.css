@@ -22,11 +22,14 @@
   align-items: center;
   justify-content: space-between;
   height: 100%;
+  max-width: 1400px;
+  width: 100%;
 }
 
 .logoArea {
   display: flex;
   align-items: center;
+  flex-shrink: 0;
 }
 
 .logo {
@@ -47,31 +50,38 @@
 
 .desktopNav {
   display: none;
+  margin: 0 10px;
 }
 
 .navLinks {
   display: flex;
   align-items: center;
   list-style: none;
-  gap: 20px;
+  gap: clamp(8px, 1.1vw, 16px);
+  margin: 0;
+  padding: 0;
 }
 
 .navLink {
-  font-size: 0.925rem;
+  font-size: clamp(0.82rem, 0.88vw, 0.88rem);
   font-weight: 600;
   color: var(--text-secondary);
-  padding: 8px 4px;
+  padding: 6px 2px;
   position: relative;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  line-height: 1.2;
 }
 
 .navLink::after {
   content: '';
   position: absolute;
-  bottom: 0;
+  bottom: -2px;
   left: 0;
   width: 0;
   height: 2px;
-  background-color: var(--primary);
+  background-color: var(--secondary);
   transition: width var(--transition-fast);
 }
 
@@ -85,6 +95,7 @@
 
 .active {
   color: var(--primary) !important;
+  font-weight: 700;
 }
 
 .active::after {
@@ -93,6 +104,7 @@
 
 .ctaArea {
   display: none;
+  flex-shrink: 0;
 }
 
 .landingCta {
@@ -174,7 +186,7 @@
 }
 
 /* Media Queries for Responsiveness */
-@media (min-width: 992px) {
+@media (min-width: 1120px) {
   .desktopNav {
     display: block;
   }
