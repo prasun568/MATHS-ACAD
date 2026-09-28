@@ -1,0 +1,176 @@
+.page {
+  padding-bottom: 0;
+}
+
+.header {
+  background: linear-gradient(135deg, #061320 0%, #0d253d 100%);
+  padding: calc(var(--navbar-height) + 40px) 0 60px;
+  color: #ffffff;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: radial-gradient(rgba(184, 134, 11, 0.15) 1px, transparent 1px);
+  background-size: 24px 24px;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.headerBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  background: rgba(184, 134, 11, 0.15);
+  border: 1px solid rgba(184, 134, 11, 0.4);
+  border-radius: var(--radius-full);
+  color: var(--secondary);
+  font-size: 0.825rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  letter-spacing: 0.04em;
+}
+
+.title {
+  font-family: var(--font-headings);
+  font-size: clamp(2.2rem, 4vw, 3.2rem);
+  color: #ffffff;
+  margin-bottom: 16px;
+  line-height: 1.2;
+}
+
+.subtitle {
+  font-size: 1.15rem;
+  max-width: 760px;
+  margin: 0 auto;
+  color: #cbd5e1;
+  line-height: 1.6;
+}
+
+/* Vetting Steps */
+.stepCard {
+  background: #ffffff;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  padding: 28px 22px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+}
+
+.stepNum {
+  font-family: var(--font-headings);
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--secondary);
+  margin-bottom: 12px;
+  line-height: 1;
+}
+
+.stepTitle {
+  font-family: var(--font-headings);
+  font-size: 1.15rem;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.stepDesc {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+/* Apply as Mentor Banner */
+.applyBanner {
+  background: linear-gradient(135deg, #061320 0%, #112233 100%);
+  color: #ffffff;
+  padding: 60px 0;
+  margin: 40px 0;
+}
+
+.bannerGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 30px;
+  align-items: center;
+}
+
+@media (min-width: 850px) {
+  .bannerGrid {
+    grid-template-columns: 1fr auto;
+    gap: 40px;
+  }
+}
+
+.bannerBadge {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  background: rgba(184, 134, 11, 0.25);
+  color: #ffd700;
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  margin-bottom: 12px;
+}
+
+.bannerTitle {
+  font-family: var(--font-headings);
+  font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+  margin-bottom: 12px;
+  color: #ffffff;
+}
+
+.bannerDesc {
+  font-size: 1rem;
+  color: #cbd5e1;
+  max-width: 650px;
+  line-height: 1.6;
+}
+
+.bannerCta {
+  flex-shrink: 0;
+}
+
+/* Bottom CTA */
+.ctaBottom {
+  background: #f8fafc;
+  padding: 80px 0;
+  text-align: center;
+  border-top: 1px solid var(--border-color);
+}
+
+.ctaContent {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.ctaTitle {
+  font-family: var(--font-headings);
+  font-size: clamp(2rem, 3.2vw, 2.6rem);
+  color: var(--text-primary);
+  margin-bottom: 16px;
+}
+
+.ctaSubtitle {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 32px;
+}
+
+.ctaButtons {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}

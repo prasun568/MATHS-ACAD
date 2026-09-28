@@ -98,6 +98,7 @@ export default function Footer() {
           <h4 className={`${styles.heading} ${styles.socialHeader}`}>Quick Links</h4>
           <ul className={styles.links}>
             <li><Link href="/credentials" className={styles.link}>Trust &amp; Credentials (MSME)</Link></li>
+            <li><Link href="/mentors" className={styles.link}>Meet Our Mentors</Link></li>
             <li><Link href="/about" className={styles.link}>About Our Philosophy</Link></li>
             <li><Link href="/how-it-works" className={styles.link}>Our 5-Step Process</Link></li>
             <li><Link href="/results" className={styles.link}>Results &amp; Progress Tracking</Link></li>
