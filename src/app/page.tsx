@@ -335,52 +335,52 @@ export default function Home() {
       <section className="section-alt" id="credentials">
         <div className="container">
           <SectionHeading
-            badge="GOVERNMENT REGISTERED & COMPLIANT"
-            title="Our Credentials & Compliance"
-            subtitle="The MathMatriX Academy is a legally registered, government-compliant educational enterprise committed to academic integrity, quality mentoring, and parent transparency."
+            badge="🏛️ OUR CREDENTIALS"
+            title="Government Registered &amp; Compliant"
+            subtitle="The MathMatriX Academy is a legally registered educational enterprise committed to academic integrity, quality mentoring, and parent transparency."
             centered
           />
           <div className="grid-3">
             <div className={styles.credCard}>
               <div className={styles.credCardHeader}>
-                <span className={styles.credBadge}>MSME REGISTERED</span>
-                <span className={styles.credCheckIcon}>✓</span>
+                <span className={styles.credBadge}>✅ MSME REGISTERED</span>
               </div>
-              <h3 className={styles.credTitle}>Govt. of India MSME</h3>
+              <h3 className={styles.credTitle}>MSME Registered</h3>
+              <p className={styles.credSubLabel}>Udyam Registration No.</p>
               <p className={styles.credRegNumber}>UDYAM-MP-48-0022294</p>
               <p className={styles.credDesc}>
-                Formally registered under the Ministry of Micro, Small and Medium Enterprises for Academic Tutoring Services (NIC 85491).
+                Formally registered with the Ministry of MSME, Government of India for Academic Tutoring Services (NIC 85491).
               </p>
             </div>
 
             <div className={styles.credCard}>
               <div className={styles.credCardHeader}>
-                <span className={styles.credBadge}>STATE COMPLIANT</span>
-                <span className={styles.credCheckIcon}>✓</span>
+                <span className={styles.credBadge}>✅ STATE COMPLIANT</span>
               </div>
-              <h3 className={styles.credTitle}>MP Shops &amp; Establishments</h3>
-              <p className={styles.credRegNumber}>Tikamgarh Jurisdiction</p>
+              <h3 className={styles.credTitle}>Registered under MP Act</h3>
+              <p className={styles.credSubLabel}>Statutory Regulation</p>
+              <p className={styles.credRegNumber}>Shop &amp; Establishment Registration</p>
               <p className={styles.credDesc}>
-                Operating in full statutory compliance with Madhya Pradesh state commercial and educational service norms.
+                Registered under the Madhya Pradesh Shops &amp; Establishments Act (Tikamgarh jurisdiction).
               </p>
             </div>
 
             <div className={styles.credCard}>
               <div className={styles.credCardHeader}>
-                <span className={styles.credBadge}>ACADEMIC INTEGRITY</span>
-                <span className={styles.credCheckIcon}>✓</span>
+                <span className={styles.credBadge}>✅ PROFESSIONAL ACADEMY</span>
               </div>
               <h3 className={styles.credTitle}>Verified Mentorship</h3>
-              <p className={styles.credRegNumber}>Led by Vidur Namdev</p>
+              <p className={styles.credSubLabel}>Academic Governance</p>
+              <p className={styles.credRegNumber}>Led by Vidur Namdev (8+ Yrs Exp)</p>
               <p className={styles.credDesc}>
-                8+ years experience, rigorous multi-point educator screening, diagnostic benchmarks, and direct founder governance.
+                Rigorous multi-point educator vetting, diagnostic assessment benchmarks, and weekly parent reports.
               </p>
             </div>
           </div>
 
           <div className={styles.credActionRow}>
             <Button variant="primary" size="md" href="/credentials">
-              VIEW OFFICIAL CERTIFICATES &amp; REGISTRY DETAILS &rarr;
+              [VIEW CERTIFICATES &rarr;]
             </Button>
           </div>
         </div>

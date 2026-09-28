@@ -883,6 +883,15 @@
   margin-bottom: 6px;
 }
 
+.credSubLabel {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 2px;
+}
+
 .credRegNumber {
   font-family: monospace;
   font-size: 0.85rem;
