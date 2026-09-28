@@ -6,6 +6,7 @@ import SectionHeading from '@/components/SectionHeading';
 import FAQAccordion from '@/components/FAQAccordion';
 import AssessmentForm from '@/components/AssessmentForm';
 import { renderPremiumIcon } from '@/components/Icons';
+import MSMESection from '@/components/MSMESection';
 import styles from './page.module.css';
 
 export default function Home() {
@@ -295,17 +296,17 @@ export default function Home() {
             <span className={styles.trustDivider}>|</span>
             <div className={styles.trustStripItem}>
               <span className={styles.trustCheck}>✓</span>
-              <span><strong>MP Shop &amp; Establishment</strong> Registered</span>
+              <span><strong>Micro Enterprise</strong> (Services)</span>
             </div>
             <span className={styles.trustDivider}>|</span>
             <div className={styles.trustStripItem}>
               <span className={styles.trustCheck}>✓</span>
-              <span><strong>Professional</strong> Online Academy</span>
+              <span><strong>Academic Tutoring Services</strong></span>
             </div>
           </div>
-          <Link href="/credentials" className={styles.trustStripLink}>
-            View Certificates &rarr;
-          </Link>
+          <a href="#msme-registration" className={styles.trustStripLink}>
+            View Registration Details &rarr;
+          </a>
         </div>
       </section>
 
@@ -331,60 +332,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Trust & Credentials Section */}
-      <section className="section-alt" id="credentials">
-        <div className="container">
-          <SectionHeading
-            badge="🏛️ OUR CREDENTIALS"
-            title="Government Registered &amp; Compliant"
-            subtitle="The MathMatriX Academy is a legally registered educational enterprise committed to academic integrity, quality mentoring, and parent transparency."
-            centered
-          />
-          <div className="grid-3">
-            <div className={styles.credCard}>
-              <div className={styles.credCardHeader}>
-                <span className={styles.credBadge}>✅ MSME REGISTERED</span>
-              </div>
-              <h3 className={styles.credTitle}>MSME Registered</h3>
-              <p className={styles.credSubLabel}>Udyam Registration No.</p>
-              <p className={styles.credRegNumber}>UDYAM-MP-48-0022294</p>
-              <p className={styles.credDesc}>
-                Formally registered with the Ministry of MSME, Government of India for Academic Tutoring Services (NIC 85491).
-              </p>
-            </div>
-
-            <div className={styles.credCard}>
-              <div className={styles.credCardHeader}>
-                <span className={styles.credBadge}>✅ STATE COMPLIANT</span>
-              </div>
-              <h3 className={styles.credTitle}>Registered under MP Act</h3>
-              <p className={styles.credSubLabel}>Statutory Regulation</p>
-              <p className={styles.credRegNumber}>Shop &amp; Establishment Registration</p>
-              <p className={styles.credDesc}>
-                Registered under the Madhya Pradesh Shops &amp; Establishments Act (Tikamgarh jurisdiction).
-              </p>
-            </div>
-
-            <div className={styles.credCard}>
-              <div className={styles.credCardHeader}>
-                <span className={styles.credBadge}>✅ PROFESSIONAL ACADEMY</span>
-              </div>
-              <h3 className={styles.credTitle}>Verified Mentorship</h3>
-              <p className={styles.credSubLabel}>Academic Governance</p>
-              <p className={styles.credRegNumber}>Led by Vidur Namdev (8+ Yrs Exp)</p>
-              <p className={styles.credDesc}>
-                Rigorous multi-point educator vetting, diagnostic assessment benchmarks, and weekly parent reports.
-              </p>
-            </div>
-          </div>
-
-          <div className={styles.credActionRow}>
-            <Button variant="primary" size="md" href="/credentials">
-              [VIEW CERTIFICATES &rarr;]
-            </Button>
-          </div>
-        </div>
-      </section>
+      {/* Professional MSME Registered Section */}
+      <MSMESection id="msme-registration" />
 
       {/* Our Programs */}
       <section className="section-alt" id="programs">

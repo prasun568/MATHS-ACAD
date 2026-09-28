@@ -1,0 +1,275 @@
+.section {
+  padding: 60px 0;
+  background-color: var(--bg-main);
+}
+
+.sectionHeader {
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto 36px auto;
+}
+
+.badgeRow {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 14px;
+}
+
+.msmeBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  background-color: rgba(184, 134, 11, 0.1);
+  border: 1px solid rgba(184, 134, 11, 0.35);
+  border-radius: var(--radius-full);
+  color: #9e720a;
+  font-size: 0.825rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.shieldIcon {
+  color: var(--secondary);
+}
+
+.title {
+  font-family: var(--font-headings);
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+  color: var(--text-primary);
+  margin-bottom: 12px;
+  line-height: 1.25;
+}
+
+.subtitle {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* Card Container */
+.card {
+  max-width: 920px;
+  margin: 0 auto;
+  background: #ffffff;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  transition: box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.card:hover {
+  border-color: rgba(184, 134, 11, 0.4);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Header */
+.cardHeader {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 22px 28px;
+  background-color: #061320;
+  color: #ffffff;
+}
+
+.orgInfo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.emblemBox {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.flagIcon {
+  font-size: 1.3rem;
+  line-height: 1;
+}
+
+.ministryTag {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #cbd5e1;
+  letter-spacing: 0.03em;
+  margin-bottom: 2px;
+}
+
+.enterpriseHeading {
+  font-family: var(--font-headings);
+  font-size: 1.2rem;
+  color: #ffffff;
+  letter-spacing: 0.02em;
+  margin: 0;
+}
+
+.verifiedPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 12px;
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  border-radius: var(--radius-full);
+  color: #34d399;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.verifiedDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: #10b981;
+}
+
+/* Key-Value Details Grid */
+.detailsGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  padding: 8px 0;
+  background-color: #ffffff;
+}
+
+@media (min-width: 650px) {
+  .detailsGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.detailItem {
+  padding: 18px 28px;
+  border-bottom: 1px solid var(--border-color-light);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+@media (min-width: 650px) {
+  .detailItem:nth-child(odd) {
+    border-right: 1px solid var(--border-color-light);
+  }
+  .detailItem:nth-last-child(1),
+  .detailItem:nth-last-child(2) {
+    border-bottom: none;
+  }
+}
+
+.detailLabel {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.detailValueRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.detailValue {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.titleValue {
+  font-family: var(--font-headings);
+  font-size: 1.05rem;
+  color: var(--primary);
+}
+
+.monoValue {
+  font-family: monospace;
+  font-size: 1rem;
+  color: var(--secondary);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.copyBtn {
+  background: rgba(6, 19, 32, 0.05);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 4px 8px;
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.copyBtn:hover {
+  background: var(--primary);
+  color: #ffffff;
+  border-color: var(--primary);
+}
+
+.copiedText {
+  color: #047857;
+  font-weight: 700;
+}
+
+/* Card Footer */
+.cardFooter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 28px;
+  background-color: #f8fafc;
+  border-top: 1px solid var(--border-color);
+}
+
+.footerNote {
+  font-size: 0.825rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin: 0;
+  max-width: 520px;
+}
+
+.actionGroup {
+  display: flex;
+  align-items: center;
+}
+
+.verifyBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  background-color: #061320;
+  color: #ffffff;
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.verifyBtn:hover {
+  background-color: #0d253d;
+  transform: translateY(-1px);
+}
