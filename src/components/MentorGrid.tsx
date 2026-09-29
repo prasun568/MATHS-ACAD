@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { MentorProfile } from '@/data/mentors';
 import styles from './MentorGrid.module.css';
@@ -10,14 +9,53 @@ interface MentorGridProps {
   mentors: MentorProfile[];
 }
 
+// Resilient Avatar component that falls back seamlessly
+function MentorAvatar({ name, image, size = 84 }: { name: string; image: string; size?: number }) {
+  const [hasError, setHasError] = useState(false);
+
+  // Generate initials (e.g. "Luxmikant Sir" -> "LS", "Manjunath Sir" -> "MS")
+  const initials = name
+    .split(' ')
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((w) => w[0].toUpperCase())
+    .join('');
+
+  if (!image || hasError) {
+    return (
+      <div
+        className={styles.avatarFallback}
+        style={{ width: size, height: size, fontSize: size * 0.38 }}
+        title={name}
+      >
+        {initials || 'MM'}
+      </div>
+    );
+  }
+
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={image}
+      alt={name}
+      width={size}
+      height={size}
+      onError={() => setHasError(true)}
+      className={styles.avatarImg}
+      loading="lazy"
+      referrerPolicy="no-referrer"
+    />
+  );
+}
+
 export default function MentorGrid({ mentors }: MentorGridProps) {
   const [selectedSubject, setSelectedSubject] = useState<string>('All');
-  const [selectedCurriculum, setSelectedCurriculum] = useState<string>('All');
+  const [selectedBoard, setSelectedBoard] = useState<string>('All');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [activeModalMentor, setActiveModalMentor] = useState<MentorProfile | null>(null);
 
   const subjectOptions = ['All', 'Mathematics', 'Physics', 'Chemistry', 'Biology', 'Science'];
-  const curriculumOptions = ['All', 'CBSE', 'ICSE', 'IGCSE', 'USA'];
+  const boardOptions = ['All', 'CBSE', 'ICSE', 'State Boards', 'IB/IGCSE'];
 
   const filteredMentors = useMemo(() => {
     return mentors.filter((m) => {
@@ -26,22 +64,26 @@ export default function MentorGrid({ mentors }: MentorGridProps) {
         selectedSubject === 'All' ||
         m.subjects.some((s) => s.toLowerCase().includes(selectedSubject.toLowerCase()));
 
-      // Curriculum filter
-      const matchesCurriculum =
-        selectedCurriculum === 'All' ||
-        m.curricula.some((c) => c.toLowerCase().includes(selectedCurriculum.toLowerCase()));
+      // Board filter
+      const mentorBoards = m.boards || m.curricula || [];
+      const matchesBoard =
+        selectedBoard === 'All' ||
+        mentorBoards.some((b) => b.toLowerCase().includes(selectedBoard.toLowerCase()));
 
       // Search query
+      const query = searchQuery.trim().toLowerCase();
       const matchesSearch =
-        searchQuery.trim() === '' ||
-        m.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        m.role.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        m.bio.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        m.subjects.some((s) => s.toLowerCase().includes(searchQuery.toLowerCase()));
+        query === '' ||
+        m.name.toLowerCase().includes(query) ||
+        (m.qualification && m.qualification.toLowerCase().includes(query)) ||
+        (m.classes && m.classes.toLowerCase().includes(query)) ||
+        (m.specialization && m.specialization.toLowerCase().includes(query)) ||
+        m.subjects.some((s) => s.toLowerCase().includes(query)) ||
+        mentorBoards.some((b) => b.toLowerCase().includes(query));
 
-      return matchesSubject && matchesCurriculum && matchesSearch;
+      return matchesSubject && matchesBoard && matchesSearch;
     });
-  }, [mentors, selectedSubject, selectedCurriculum, searchQuery]);
+  }, [mentors, selectedSubject, selectedBoard, searchQuery]);
 
   return (
     <div className={styles.wrapper}>
@@ -64,7 +106,7 @@ export default function MentorGrid({ mentors }: MentorGridProps) {
           </svg>
           <input
             type="text"
-            placeholder="Search by mentor name, subject or keyword..."
+            placeholder="Search mentor by name, qualification, board, or subject..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className={styles.searchInput}
@@ -102,18 +144,18 @@ export default function MentorGrid({ mentors }: MentorGridProps) {
           </div>
 
           <div className={styles.filterGroup}>
-            <span className={styles.filterLabel}>Curriculum:</span>
+            <span className={styles.filterLabel}>Board:</span>
             <div className={styles.pillRow}>
-              {curriculumOptions.map((curr) => (
+              {boardOptions.map((brd) => (
                 <button
-                  key={curr}
+                  key={brd}
                   type="button"
                   className={`${styles.filterPill} ${
-                    selectedCurriculum === curr ? styles.activePill : ''
+                    selectedBoard === brd ? styles.activePill : ''
                   }`}
-                  onClick={() => setSelectedCurriculum(curr)}
+                  onClick={() => setSelectedBoard(brd)}
                 >
-                  {curr}
+                  {brd}
                 </button>
               ))}
             </div>
@@ -127,13 +169,13 @@ export default function MentorGrid({ mentors }: MentorGridProps) {
           Showing <strong>{filteredMentors.length}</strong> verified mentor
           {filteredMentors.length === 1 ? '' : 's'}
         </p>
-        {(selectedSubject !== 'All' || selectedCurriculum !== 'All' || searchQuery) && (
+        {(selectedSubject !== 'All' || selectedBoard !== 'All' || searchQuery) && (
           <button
             type="button"
             className={styles.resetBtn}
             onClick={() => {
               setSelectedSubject('All');
-              setSelectedCurriculum('All');
+              setSelectedBoard('All');
               setSearchQuery('');
             }}
           >
@@ -147,14 +189,14 @@ export default function MentorGrid({ mentors }: MentorGridProps) {
         <div className={styles.emptyState}>
           <p className={styles.emptyTitle}>No mentors found matching your filters</p>
           <p className={styles.emptyText}>
-            Try selecting a different subject or curriculum, or clear your search term.
+            Try selecting a different subject or board, or clear your search term.
           </p>
           <button
             type="button"
             className={styles.resetBtnPrimary}
             onClick={() => {
               setSelectedSubject('All');
-              setSelectedCurriculum('All');
+              setSelectedBoard('All');
               setSearchQuery('');
             }}
           >
@@ -163,142 +205,120 @@ export default function MentorGrid({ mentors }: MentorGridProps) {
         </div>
       ) : (
         <div className={styles.grid}>
-          {filteredMentors.map((mentor) => (
-            <div
-              key={mentor.id}
-              className={`${styles.card} ${mentor.featured ? styles.featuredCard : ''}`}
-            >
-              {mentor.featured && (
-                <div className={styles.featuredRibbon}>
-                  <span>ACADEMIC DIRECTOR</span>
-                </div>
-              )}
+          {filteredMentors.map((mentor) => {
+            const mentorBoards = mentor.boards || mentor.curricula || [];
+            const mentorClasses = mentor.classes || mentor.grades;
+            const mentorQualification = mentor.qualification || mentor.education;
 
-              {/* Card Header: Avatar & Key Meta */}
-              <div className={styles.cardHeader}>
-                <div className={styles.avatarWrapper}>
-                  {mentor.image ? (
-                    <Image
-                      src={mentor.image}
-                      alt={mentor.name}
-                      width={88}
-                      height={88}
-                      className={styles.avatarImg}
-                    />
-                  ) : (
-                    <div className={styles.avatarFallback}>
-                      {mentor.name
-                        .split(' ')
-                        .map((n) => n[0])
-                        .slice(0, 2)
-                        .join('')}
+            return (
+              <div
+                key={mentor.id}
+                className={`${styles.card} ${mentor.featured ? styles.featuredCard : ''}`}
+              >
+                {mentor.featured && (
+                  <div className={styles.featuredRibbon}>
+                    <span>ACADEMIC DIRECTOR</span>
+                  </div>
+                )}
+
+                {/* Card Header: Avatar & Key Meta */}
+                <div className={styles.cardHeader}>
+                  <div className={styles.avatarWrapper}>
+                    <MentorAvatar name={mentor.name} image={mentor.image} size={84} />
+                    <span className={styles.onlineDot} title="Verified Active Educator"></span>
+                  </div>
+
+                  <div className={styles.headerMeta}>
+                    <div className={styles.badgesRow}>
+                      {mentor.badges.map((b, i) => (
+                        <span key={i} className={styles.badge}>
+                          {b}
+                        </span>
+                      ))}
                     </div>
-                  )}
-                  <span className={styles.onlineDot} title="Active Educator"></span>
+                    <h3 className={styles.mentorName}>{mentor.name}</h3>
+                    <p className={styles.mentorRole}>{mentor.role}</p>
+                    <p className={styles.mentorExp}>
+                      <strong>Experience:</strong> {mentor.experience}
+                    </p>
+                  </div>
                 </div>
 
-                <div className={styles.headerMeta}>
-                  <div className={styles.badgesRow}>
-                    {mentor.badges.map((b, i) => (
-                      <span key={i} className={styles.badge}>
-                        {b}
-                      </span>
-                    ))}
+                {/* Profile Key Details: Qualification, Classes, Boards */}
+                <div className={styles.chipsSection}>
+                  {/* Qualification */}
+                  <div className={styles.chipGroup}>
+                    <span className={styles.chipLabel}>Qualification:</span>
+                    <span className={styles.qualText}>{mentorQualification}</span>
                   </div>
-                  <h3 className={styles.mentorName}>{mentor.name}</h3>
-                  <p className={styles.mentorRole}>{mentor.role}</p>
-                  <p className={styles.mentorExp}>
-                    <strong>Experience:</strong> {mentor.experience} • {mentor.education}
+
+                  {/* Classes They Teach */}
+                  <div className={styles.chipGroup}>
+                    <span className={styles.chipLabel}>Classes Taught:</span>
+                    <span className={styles.gradeBadge}>{mentorClasses}</span>
+                  </div>
+
+                  {/* Boards They Teach */}
+                  <div className={styles.chipGroup}>
+                    <span className={styles.chipLabel}>Boards Taught:</span>
+                    <div className={styles.chipList}>
+                      {mentorBoards.map((board, i) => (
+                        <span key={i} className={styles.currChip}>
+                          {board}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Subjects */}
+                  <div className={styles.chipGroup}>
+                    <span className={styles.chipLabel}>Subjects:</span>
+                    <div className={styles.chipList}>
+                      {mentor.subjects.map((sub, i) => (
+                        <span key={i} className={styles.subjectChip}>
+                          {sub}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Specialization / Topics */}
+                {mentor.specialization && (
+                  <p className={styles.mentorBio}>
+                    <strong>Specialization:</strong> {mentor.specialization}
                   </p>
-                </div>
-              </div>
+                )}
 
-              {/* Subjects & Curricula Chips */}
-              <div className={styles.chipsSection}>
-                <div className={styles.chipGroup}>
-                  <span className={styles.chipLabel}>Subjects:</span>
-                  <div className={styles.chipList}>
-                    {mentor.subjects.map((sub, i) => (
-                      <span key={i} className={styles.subjectChip}>
-                        {sub}
-                      </span>
-                    ))}
+                {/* Action Buttons */}
+                <div className={styles.cardActions}>
+                  <Link href="/#assessment" className={styles.primaryAction}>
+                    Book Free Assessment with Mentor &rarr;
+                  </Link>
+                  <div className={styles.subActions}>
+                    <button
+                      type="button"
+                      className={styles.viewProfileBtn}
+                      onClick={() => setActiveModalMentor(mentor)}
+                    >
+                      View Profile Details
+                    </button>
+                    <a
+                      href={`https://wa.me/918319531258?text=Hello%20MathMatriX%20Academy%2C%20I%20would%20like%20to%20enquire%20about%20classes%20with%20${encodeURIComponent(
+                        mentor.name
+                      )}.`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={styles.whatsappBtn}
+                      title="Enquire on WhatsApp"
+                    >
+                      WhatsApp Enquire
+                    </a>
                   </div>
                 </div>
-
-                <div className={styles.chipGroup}>
-                  <span className={styles.chipLabel}>Curricula:</span>
-                  <div className={styles.chipList}>
-                    {mentor.curricula.map((curr, i) => (
-                      <span key={i} className={styles.currChip}>
-                        {curr}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                <div className={styles.chipGroup}>
-                  <span className={styles.chipLabel}>Grades:</span>
-                  <span className={styles.gradeBadge}>{mentor.grades}</span>
-                </div>
               </div>
-
-              {/* Bio Summary */}
-              <p className={styles.mentorBio}>{mentor.bio}</p>
-
-              {/* Key Achievements */}
-              <div className={styles.achievementsBox}>
-                <h4 className={styles.achieveTitle}>Verified Highlights:</h4>
-                <ul className={styles.achieveList}>
-                  {mentor.achievements.slice(0, 3).map((ach, i) => (
-                    <li key={i} className={styles.achieveItem}>
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className={styles.checkIcon}
-                      >
-                        <polyline points="20 6 9 17 4 12" />
-                      </svg>
-                      <span>{ach}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Action Buttons */}
-              <div className={styles.cardActions}>
-                <Link href="/#assessment" className={styles.primaryAction}>
-                  Book Free Assessment with Mentor &rarr;
-                </Link>
-                <div className={styles.subActions}>
-                  <button
-                    type="button"
-                    className={styles.viewProfileBtn}
-                    onClick={() => setActiveModalMentor(mentor)}
-                  >
-                    View Full Profile
-                  </button>
-                  <a
-                    href={`https://wa.me/918319531258?text=Hello%20MathMatriX%20Academy%2C%20I%20would%20like%20to%20enquire%20about%20classes%20with%20${encodeURIComponent(
-                      mentor.name
-                    )}.`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={styles.whatsappBtn}
-                    title="Enquire on WhatsApp"
-                  >
-                    WhatsApp Enquire
-                  </a>
-                </div>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
 
@@ -326,40 +346,41 @@ export default function MentorGrid({ mentors }: MentorGridProps) {
               <div className={styles.modalGrid}>
                 <div className={styles.modalSidebar}>
                   <div className={styles.modalAvatarBox}>
-                    {activeModalMentor.image ? (
-                      <Image
-                        src={activeModalMentor.image}
-                        alt={activeModalMentor.name}
-                        width={120}
-                        height={120}
-                        className={styles.modalAvatar}
-                      />
-                    ) : (
-                      <div className={styles.modalAvatarFallback}>
-                        {activeModalMentor.name
-                          .split(' ')
-                          .map((n) => n[0])
-                          .slice(0, 2)
-                          .join('')}
-                      </div>
-                    )}
+                    <MentorAvatar
+                      name={activeModalMentor.name}
+                      image={activeModalMentor.image}
+                      size={110}
+                    />
                   </div>
                   <div className={styles.modalMetaCard}>
                     <p>
                       <strong>Experience:</strong> {activeModalMentor.experience}
                     </p>
                     <p>
-                      <strong>Qualification:</strong> {activeModalMentor.education}
-                    </p>
-                    <p>
-                      <strong>Grades:</strong> {activeModalMentor.grades}
+                      <strong>Classes:</strong> {activeModalMentor.classes || activeModalMentor.grades}
                     </p>
                   </div>
                 </div>
 
                 <div className={styles.modalMain}>
-                  <h4 className={styles.modalSectionHeading}>Teaching Methodology & Bio</h4>
-                  <p className={styles.modalBioText}>{activeModalMentor.bio}</p>
+                  <h4 className={styles.modalSectionHeading}>Academic Qualification</h4>
+                  <p className={styles.modalBioText}>
+                    {activeModalMentor.qualification || activeModalMentor.education}
+                  </p>
+
+                  <h4 className={styles.modalSectionHeading}>Classes &amp; Grades Handled</h4>
+                  <div className={styles.gradeBadge}>
+                    {activeModalMentor.classes || activeModalMentor.grades}
+                  </div>
+
+                  <h4 className={styles.modalSectionHeading}>Boards Handled</h4>
+                  <div className={styles.chipList}>
+                    {(activeModalMentor.boards || activeModalMentor.curricula || []).map((board, i) => (
+                      <span key={i} className={styles.currChip}>
+                        {board}
+                      </span>
+                    ))}
+                  </div>
 
                   <h4 className={styles.modalSectionHeading}>Subjects Handled</h4>
                   <div className={styles.chipList}>
@@ -370,36 +391,12 @@ export default function MentorGrid({ mentors }: MentorGridProps) {
                     ))}
                   </div>
 
-                  <h4 className={styles.modalSectionHeading}>Curricula Expertise</h4>
-                  <div className={styles.chipList}>
-                    {activeModalMentor.curricula.map((curr, i) => (
-                      <span key={i} className={styles.currChip}>
-                        {curr}
-                      </span>
-                    ))}
-                  </div>
-
-                  <h4 className={styles.modalSectionHeading}>Credentials & Key Achievements</h4>
-                  <ul className={styles.modalAchieveList}>
-                    {activeModalMentor.achievements.map((ach, i) => (
-                      <li key={i}>
-                        <svg
-                          width="16"
-                          height="16"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          className={styles.checkIcon}
-                        >
-                          <polyline points="20 6 9 17 4 12" />
-                        </svg>
-                        <span>{ach}</span>
-                      </li>
-                    ))}
-                  </ul>
+                  {activeModalMentor.specialization && (
+                    <>
+                      <h4 className={styles.modalSectionHeading}>Key Specialization</h4>
+                      <p className={styles.modalBioText}>{activeModalMentor.specialization}</p>
+                    </>
+                  )}
                 </div>
               </div>
             </div>

@@ -365,9 +365,19 @@
 }
 
 .gradeBadge {
-  font-size: 0.8rem;
+  font-size: 0.825rem;
   font-weight: 700;
   color: var(--primary);
+  background: rgba(6, 19, 32, 0.05);
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+.qualText {
+  font-size: 0.825rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.35;
 }
 
 .mentorBio {
