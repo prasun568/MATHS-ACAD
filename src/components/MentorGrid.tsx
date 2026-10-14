@@ -10,8 +10,23 @@ interface MentorGridProps {
 }
 
 // Resilient Avatar component that falls back seamlessly
-function MentorAvatar({ name, image, size = 84 }: { name: string; image: string; size?: number }) {
+function MentorAvatar({
+  name,
+  image,
+  size = 84,
+  className = '',
+}: {
+  name: string;
+  image: string;
+  size?: number;
+  className?: string;
+}) {
   const [hasError, setHasError] = useState(false);
+
+  // Reset error state if image changes (e.g. in modal)
+  React.useEffect(() => {
+    setHasError(false);
+  }, [image]);
 
   // Generate initials (e.g. "Luxmikant Sir" -> "LS", "Manjunath Sir" -> "MS")
   const initials = name
@@ -24,8 +39,8 @@ function MentorAvatar({ name, image, size = 84 }: { name: string; image: string;
   if (!image || hasError) {
     return (
       <div
-        className={styles.avatarFallback}
-        style={{ width: size, height: size, fontSize: size * 0.38 }}
+        className={`${styles.avatarFallback} ${className}`}
+        style={{ width: `${size}px`, height: `${size}px`, fontSize: `${size * 0.38}px` }}
         title={name}
       >
         {initials || 'MM'}
@@ -40,8 +55,9 @@ function MentorAvatar({ name, image, size = 84 }: { name: string; image: string;
       alt={name}
       width={size}
       height={size}
+      style={{ width: `${size}px`, height: `${size}px` }}
       onError={() => setHasError(true)}
-      className={styles.avatarImg}
+      className={`${styles.avatarImg} ${className}`}
       loading="lazy"
       referrerPolicy="no-referrer"
     />
@@ -349,7 +365,8 @@ export default function MentorGrid({ mentors }: MentorGridProps) {
                     <MentorAvatar
                       name={activeModalMentor.name}
                       image={activeModalMentor.image}
-                      size={110}
+                      size={120}
+                      className={styles.modalAvatar}
                     />
                   </div>
                   <div className={styles.modalMetaCard}>
