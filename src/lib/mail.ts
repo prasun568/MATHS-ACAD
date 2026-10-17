@@ -2,7 +2,7 @@ import nodemailer from 'nodemailer';
 
 export interface EmailAttachment {
   filename: string;
-  content: any;
+  content: string | Buffer;
   contentType?: string;
 }
 
@@ -17,7 +17,7 @@ export interface SendEmailOptions {
 export interface SendEmailResult {
   success: boolean;
   messageId?: string;
-  error?: any;
+  error?: string;
   warning?: string;
   code?: string;
   provider?: string;
@@ -43,7 +43,13 @@ async function sendViaResend({
 }): Promise<SendEmailResult> {
   try {
     const fromAddress = process.env.RESEND_FROM || `${fromName} <onboarding@resend.dev>`;
-    const payload: any = {
+    const payload: {
+      from: string;
+      to: string[];
+      subject: string;
+      html: string;
+      attachments?: Array<{ filename: string; content: string }>;
+    } = {
       from: fromAddress,
       to: [to],
       subject,
@@ -92,11 +98,12 @@ async function sendViaResend({
 
     console.log(`[EMAIL MANAGER SUCCESS - RESEND] Sent to <${to}>, ID: ${data.id}`);
     return { success: true, messageId: data.id, provider: 'Resend' };
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('[RESEND EXCEPTION]', error);
+    const err = error as { message?: string };
     return {
       success: false,
-      error: error?.message || 'Resend HTTP request failed',
+      error: err?.message || 'Resend HTTP request failed',
       provider: 'Resend',
     };
   }
@@ -135,7 +142,7 @@ function getTransporter(user: string, pass: string, host?: string, port?: number
 /**
  * Verifies if email credentials (Resend or SMTP) are configured
  */
-export async function verifySmtp(): Promise<{ ok: boolean; message: string; details?: any }> {
+export async function verifySmtp(): Promise<{ ok: boolean; message: string; details?: Record<string, unknown> }> {
   const resendApiKey = process.env.RESEND_API_KEY?.trim();
   if (resendApiKey) {
     return {
@@ -179,16 +186,17 @@ export async function verifySmtp(): Promise<{ ok: boolean; message: string; deta
         targetAdmin: process.env.ADMIN_EMAIL || 'themathmatrixacademy@gmail.com',
       },
     };
-  } catch (error: any) {
-    const errorMsg = error?.message || 'Failed to authenticate with SMTP server';
-    const isBadCredentials = errorMsg.includes('535') || error?.code === 'EAUTH';
+  } catch (error: unknown) {
+    const err = error as { message?: string; code?: string; command?: string; response?: string };
+    const errorMsg = err?.message || 'Failed to authenticate with SMTP server';
+    const isBadCredentials = errorMsg.includes('535') || err?.code === 'EAUTH';
     return {
       ok: false,
       message: errorMsg,
       details: {
-        code: error?.code,
-        command: error?.command,
-        response: error?.response,
+        code: err?.code,
+        command: err?.command,
+        response: err?.response,
         hint: isBadCredentials
           ? 'Gmail rejected credentials. Make sure 2-Step Verification is ON in your Google Account and generate a 16-character App Password (not your regular Gmail password).'
           : 'Check that outbound SMTP traffic (port 465/587) is not blocked and host settings are correct.',
@@ -269,12 +277,13 @@ export async function sendEmail({
 
     console.log(`[EMAIL MANAGER SUCCESS - SMTP] Message sent: ${info.messageId} to <${recipient}>`);
     return { success: true, messageId: info.messageId, provider: 'SMTP' };
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error(`[EMAIL MANAGER ERROR] Failed to deliver email to <${recipient}> via SMTP:`, error);
+    const err = error as { message?: string; code?: string };
     return {
       success: false,
-      error: error?.message || 'SMTP delivery failed',
-      code: error?.code,
+      error: err?.message || 'SMTP delivery failed',
+      code: err?.code,
       provider: 'SMTP',
     };
   }

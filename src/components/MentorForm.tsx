@@ -671,7 +671,7 @@ export default function MentorForm() {
               onChange={(e) => setResumeLink(e.target.value)}
             />
             <p className={styles.helpText}>
-              Ensure the link is public and accessible (e.g. Google Drive link set to 'Anyone with the link can view').
+              Ensure the link is public and accessible (e.g. Google Drive link set to &quot;Anyone with the link can view&quot;).
             </p>
           </div>
         )}

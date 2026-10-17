@@ -301,7 +301,7 @@ export default function AssessmentForm({ isLandingPage = false }: AssessmentForm
         loading={status === 'loading'}
         className={styles.submitBtn}
       >
-        GET MY CHILD'S FREE ASSESSMENT
+        GET MY CHILD&apos;S FREE ASSESSMENT
       </Button>
 
       <p className={styles.privacyNote}>
@@ -309,7 +309,7 @@ export default function AssessmentForm({ isLandingPage = false }: AssessmentForm
           <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
           <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
         </svg>
-        Your contact information is secure. We only use these details to organize your child's assessment.
+        Your contact information is secure. We only use these details to organize your child&apos;s assessment.
       </p>
     </form>
   );

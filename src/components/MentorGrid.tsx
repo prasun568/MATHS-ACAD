@@ -21,14 +21,14 @@ function MentorAvatar({
   size?: number;
   className?: string;
 }) {
-  const [currentSrc, setCurrentSrc] = useState(image);
+  const [prevImage, setPrevImage] = useState(image);
   const [attempt, setAttempt] = useState(0);
 
-  // Reset state if image changes (e.g. in modal)
-  React.useEffect(() => {
-    setCurrentSrc(image);
+  // Reset state if image prop changes (e.g. when opening a different mentor in modal)
+  if (image !== prevImage) {
+    setPrevImage(image);
     setAttempt(0);
-  }, [image]);
+  }
 
   // Generate initials (e.g. "Luxmikant Sir" -> "LS", "Manjunath Sir" -> "MS")
   const initials = name
@@ -38,16 +38,15 @@ function MentorAvatar({
     .map((w) => w[0].toUpperCase())
     .join('');
 
+  const currentSrc =
+    attempt === 0
+      ? image
+      : attempt === 1 && image?.startsWith('/images/mentors/')
+      ? image.replace('/images/mentors/', '/')
+      : '';
+
   const handleError = () => {
-    // If the image fails from /images/mentors/xxx.jpg, try /xxx.jpg as fallback
-    if (attempt === 0 && currentSrc && currentSrc.startsWith('/images/mentors/')) {
-      const fallbackSrc = currentSrc.replace('/images/mentors/', '/');
-      setAttempt(1);
-      setCurrentSrc(fallbackSrc);
-      return;
-    }
-    // If that also fails, switch to initials avatar fallback
-    setAttempt(2);
+    setAttempt((prev) => prev + 1);
   };
 
   if (!currentSrc || attempt >= 2) {

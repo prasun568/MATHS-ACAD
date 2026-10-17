@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import styles from './IntroAnimationWrapper.module.css';
 
 interface IntroAnimationWrapperProps {
@@ -15,17 +15,70 @@ export default function IntroAnimationWrapper({ children }: IntroAnimationWrappe
   const videoRef = useRef<HTMLVideoElement>(null);
   const fallbackTimerRef = useRef<NodeJS.Timeout | null>(null);
 
+  const handleVideoEnd = useCallback(() => {
+    if (fallbackTimerRef.current) {
+      clearTimeout(fallbackTimerRef.current);
+      fallbackTimerRef.current = null;
+    }
+
+    setIntroState((currentState) => {
+      if (currentState === 'completed' || currentState === 'transitioning') return currentState;
+
+      // Calculate target coordinates of the actual logo in the Navbar
+      const targetLogo = document.getElementById('navbar-logo');
+      if (targetLogo) {
+        const rect = targetLogo.getBoundingClientRect();
+        setLogoCoords({
+          top: rect.top + window.scrollY,
+          left: rect.left + window.scrollX,
+          width: rect.width,
+          height: rect.height,
+        });
+      } else {
+        // Fallback coordinates if logo element not found
+        setLogoCoords({
+          top: 20,
+          left: 20,
+          width: 36,
+          height: 36,
+        });
+      }
+
+      // First transition phase: Render logo centered
+      setIsCentered(true);
+      document.body.setAttribute('data-intro-state', 'transitioning');
+
+      // In the next animation frame, trigger the transition toward navbar position
+      setTimeout(() => {
+        setIsCentered(false);
+      }, 50);
+
+      // After the transition animation completes (850ms CSS duration), set to completed
+      setTimeout(() => {
+        setIntroState('completed');
+        document.body.removeAttribute('data-intro-state');
+        sessionStorage.setItem('mm_intro_played', 'true');
+      }, 900);
+
+      return 'transitioning';
+    });
+  }, []);
+
   useEffect(() => {
     // 1. Check if intro has already played in this browser session
     const hasPlayed = sessionStorage.getItem('mm_intro_played');
     if (hasPlayed === 'true') {
-      setIntroState('completed');
+      queueMicrotask(() => {
+        setIntroState('completed');
+      });
       return;
     }
 
     // 2. If not played, set state to playing and update body attributes
-    setIntroState('playing');
-    document.body.setAttribute('data-intro-state', 'playing');
+    queueMicrotask(() => {
+      setIntroState('playing');
+      document.body.setAttribute('data-intro-state', 'playing');
+    });
 
     // 3. Fallback timer: in case video fails to load, play, or trigger onEnded (e.g., autoplay block or network delay)
     // We set a 35-second safe fallback so the video is never cut off prematurely.
@@ -37,53 +90,7 @@ export default function IntroAnimationWrapper({ children }: IntroAnimationWrappe
       if (fallbackTimerRef.current) clearTimeout(fallbackTimerRef.current);
       document.body.removeAttribute('data-intro-state');
     };
-  }, []);
-
-  const handleVideoEnd = () => {
-    if (fallbackTimerRef.current) {
-      clearTimeout(fallbackTimerRef.current);
-      fallbackTimerRef.current = null;
-    }
-
-    if (introState === 'completed' || introState === 'transitioning') return;
-
-    // Calculate target coordinates of the actual logo in the Navbar
-    const targetLogo = document.getElementById('navbar-logo');
-    if (targetLogo) {
-      const rect = targetLogo.getBoundingClientRect();
-      setLogoCoords({
-        top: rect.top + window.scrollY,
-        left: rect.left + window.scrollX,
-        width: rect.width,
-        height: rect.height,
-      });
-    } else {
-      // Fallback coordinates if logo element not found
-      setLogoCoords({
-        top: 20,
-        left: 20,
-        width: 36,
-        height: 36,
-      });
-    }
-
-    // First transition phase: Render logo centered
-    setIsCentered(true);
-    setIntroState('transitioning');
-    document.body.setAttribute('data-intro-state', 'transitioning');
-
-    // In the next animation frame, trigger the transition toward navbar position
-    setTimeout(() => {
-      setIsCentered(false);
-    }, 50);
-
-    // After the transition animation completes (850ms CSS duration), set to completed
-    setTimeout(() => {
-      setIntroState('completed');
-      document.body.removeAttribute('data-intro-state');
-      sessionStorage.setItem('mm_intro_played', 'true');
-    }, 900);
-  };
+  }, [handleVideoEnd]);
 
   // If completed, just render normal layout children immediately
   if (introState === 'completed') {
