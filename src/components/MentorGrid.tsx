@@ -9,7 +9,7 @@ interface MentorGridProps {
   mentors: MentorProfile[];
 }
 
-// Resilient Avatar component that falls back seamlessly
+// Resilient Avatar component that falls back seamlessly with multi-path resolution
 function MentorAvatar({
   name,
   image,
@@ -21,11 +21,13 @@ function MentorAvatar({
   size?: number;
   className?: string;
 }) {
-  const [hasError, setHasError] = useState(false);
+  const [currentSrc, setCurrentSrc] = useState(image);
+  const [attempt, setAttempt] = useState(0);
 
-  // Reset error state if image changes (e.g. in modal)
+  // Reset state if image changes (e.g. in modal)
   React.useEffect(() => {
-    setHasError(false);
+    setCurrentSrc(image);
+    setAttempt(0);
   }, [image]);
 
   // Generate initials (e.g. "Luxmikant Sir" -> "LS", "Manjunath Sir" -> "MS")
@@ -36,7 +38,19 @@ function MentorAvatar({
     .map((w) => w[0].toUpperCase())
     .join('');
 
-  if (!image || hasError) {
+  const handleError = () => {
+    // If the image fails from /images/mentors/xxx.jpg, try /xxx.jpg as fallback
+    if (attempt === 0 && currentSrc && currentSrc.startsWith('/images/mentors/')) {
+      const fallbackSrc = currentSrc.replace('/images/mentors/', '/');
+      setAttempt(1);
+      setCurrentSrc(fallbackSrc);
+      return;
+    }
+    // If that also fails, switch to initials avatar fallback
+    setAttempt(2);
+  };
+
+  if (!currentSrc || attempt >= 2) {
     return (
       <div
         className={`${styles.avatarFallback} ${className}`}
@@ -51,12 +65,12 @@ function MentorAvatar({
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
-      src={image}
+      src={currentSrc}
       alt={name}
       width={size}
       height={size}
       style={{ width: `${size}px`, height: `${size}px` }}
-      onError={() => setHasError(true)}
+      onError={handleError}
       className={`${styles.avatarImg} ${className}`}
       loading="lazy"
       referrerPolicy="no-referrer"
