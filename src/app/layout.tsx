@@ -37,6 +37,17 @@ export const metadata: Metadata = {
     description:
       'Personalized academic coaching in Maths, Science, English & Coding for CBSE, ICSE, IGCSE & USA boards.',
   },
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/icon.png', type: 'image/png', sizes: '32x32' },
+      { url: '/images/logo.jpg', type: 'image/jpeg' },
+    ],
+    shortcut: ['/favicon.ico'],
+    apple: [
+      { url: '/apple-icon.png', sizes: '180x180', type: 'image/png' },
+    ],
+  },
   robots: {
     index: true,
     follow: true,
