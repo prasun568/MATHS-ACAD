@@ -9,6 +9,20 @@ interface MentorGridProps {
   mentors: MentorProfile[];
 }
 
+function getAvatarCandidates(image: string): string[] {
+  if (!image) return [];
+  const fileName = image.split('/').pop() || '';
+  if (!fileName) return [image];
+
+  const candidates = [
+    image,
+    `/images/mentors/${fileName}`,
+    `/${fileName}`,
+    `/images/${fileName}`,
+  ];
+  return Array.from(new Set(candidates));
+}
+
 // Resilient Avatar component that falls back seamlessly with multi-path resolution
 function MentorAvatar({
   name,
@@ -38,18 +52,14 @@ function MentorAvatar({
     .map((w) => w[0].toUpperCase())
     .join('');
 
-  const currentSrc =
-    attempt === 0
-      ? image
-      : attempt === 1 && image?.startsWith('/images/mentors/')
-      ? image.replace('/images/mentors/', '/')
-      : '';
+  const candidates = useMemo(() => getAvatarCandidates(image), [image]);
+  const currentSrc = candidates[attempt] || '';
 
   const handleError = () => {
     setAttempt((prev) => prev + 1);
   };
 
-  if (!currentSrc || attempt >= 2) {
+  if (!currentSrc || attempt >= candidates.length) {
     return (
       <div
         className={`${styles.avatarFallback} ${className}`}
